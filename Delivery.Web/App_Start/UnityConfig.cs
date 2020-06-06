@@ -2,6 +2,7 @@
 using Delivery.DAL.Models;
 using Delivery.DAL.Repositories;
 using Delivery.Web.Models;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using Unity;
 using Unity.Injection;
@@ -20,13 +21,12 @@ namespace Delivery.Web.App_Start
         /// </summary>
         public static void RegisterComponents()
         {
-            string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=C:\Users\Володимир\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\deliveryDB.mdf;Initial Catalog=deliveryDB;Integrated Security=True";
-            string ef_connectionString = "DefaultConnection";
+            string connectionString = WebConfigurationManager.ConnectionStrings["DeliveryConnection"].ConnectionString;
 
             var container = new UnityContainer()
                 .RegisterType<IDeliveryMessage, DeliveryMessage>(new ContainerControlledLifetimeManager())
 
-                .RegisterType<IAdminService, AdminService>(new InjectionConstructor(ef_connectionString))
+                .RegisterType<IAdminService, AdminService>(new InjectionConstructor(connectionString))
 
                 .RegisterType<IPostOperator, PostOperator>(new ContainerControlledLifetimeManager())
                 .RegisterType<IPostOperatorsRepository, PostOperatorsRepository>(new InjectionConstructor(connectionString))
