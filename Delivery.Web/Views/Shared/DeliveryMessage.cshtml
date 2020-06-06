@@ -1,0 +1,16 @@
+﻿@model Delivery.Web.Models.DeliveryMessage
+
+@{
+    ViewBag.Title = "Delivery Повідомлення";
+}
+
+<h2>Delivery - повідомлення</h2>
+
+<div>
+    <h4>Нове повідомлення Delivery, сторінка @Html.DisplayFor(model => model.Title).</h4>
+    <hr />
+    <hgroup>
+        <h1>Повідомлення сторінки @Html.DisplayFor(model => model.Title):</h1>
+        <h2>@Html.DisplayFor(model => model.Body)</h2>
+    </hgroup>
+</div>

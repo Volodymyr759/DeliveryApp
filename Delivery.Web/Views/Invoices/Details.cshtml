@@ -1,0 +1,32 @@
+﻿@model Delivery.Web.Models.InvoiceViewModel
+
+@{
+    ViewBag.Title = "Інформація";
+}
+
+<h2>Інформація про відправлення</h2>
+
+<div>
+    <h4>Відправлення</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Номер</dt>
+        <dd>@Html.DisplayFor(model => model.Number)</dd>
+
+        <dt>Дата</dt>
+        <dd>@Html.DisplayFor(model => model.SendDateTime)</dd>
+
+        <dt>Місцезнаходження</dt>
+        <dd>@Html.DisplayFor(model => model.CurrentLocation)</dd>
+
+        <dt>Статус</dt>
+        <dd>@Html.DisplayFor(model => model.ActualStatus)</dd>
+
+        <dt>Опис</dt>
+        <dd>@Html.DisplayFor(model => model.Notes)</dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Назад до списку", "Index")
+</p>
