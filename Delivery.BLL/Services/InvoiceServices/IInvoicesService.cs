@@ -1,16 +1,12 @@
 ﻿using Delivery.BLL.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Delivery.BLL.Services
 {
     /// <summary>
     /// Сервіс управління посилками/відправленнями
     /// </summary>
-   public interface IInvoicesService
+    public interface IInvoicesService
     {
 
         /// <summary>

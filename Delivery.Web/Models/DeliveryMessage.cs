@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Delivery.Web.Models
+﻿namespace Delivery.Web.Models
 {
     /// <summary>
     /// Клас повідомлень користувача у системі Delivery

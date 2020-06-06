@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Delivery.BLL.Services
 {
     /// <summary>
     /// Клас для створення пошукових агентів фабричним методом
     /// </summary>
-   public class FactoryOfAgents
+    public class FactoryOfAgents
     {
         /// <summary>
         /// Повертає список реалізованих в системі Delivery пошукових агентів

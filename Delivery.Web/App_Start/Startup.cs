@@ -1,7 +1,6 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Delivery.BLL.Services;
 using Microsoft.AspNet.Identity;
 
 [assembly: OwinStartup(typeof(Delivery.Web.App_Start.Startup))]

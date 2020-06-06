@@ -1,9 +1,7 @@
 ﻿using Delivery.BLL.Services;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Delivery.Web.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;

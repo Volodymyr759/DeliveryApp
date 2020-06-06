@@ -4,8 +4,6 @@ using Delivery.BLL.Services;
 using Delivery.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Delivery.Web.Controllers

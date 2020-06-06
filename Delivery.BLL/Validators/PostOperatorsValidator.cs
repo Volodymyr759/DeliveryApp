@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Delivery.DAL.Models;
+﻿using Delivery.DAL.Models;
 using FluentValidation;
 
 namespace Delivery.BLL.Validators

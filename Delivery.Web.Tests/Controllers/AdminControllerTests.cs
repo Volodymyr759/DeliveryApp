@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -8,7 +7,6 @@ using System.Web.Mvc;
 using Delivery.BLL.DTO;
 using Delivery.Web.Controllers;
 using Delivery.Web.Models;
-using System.Threading.Tasks;
 
 namespace Delivery.Web.Tests.Controllers
 {
