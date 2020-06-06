@@ -142,7 +142,7 @@ namespace Delivery.BLL.Services
             var invoice = invoicesRepository.GetById(invoiceId);
             if (invoice != null)
             {
-                string postOperatorName = invoicesRepository.GetPostOperatorNameById(invoice.Id);
+                string postOperatorName = invoicesRepository.GetPostOperatorsIdNames()[invoiceId];
                 foreach (var agent in FactoryOfAgents.GetAllAgents())
                 {
                     if (postOperatorName == agent.GetName())
@@ -164,7 +164,14 @@ namespace Delivery.BLL.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, Invoice>()).CreateMapper();
             Invoice invoice = mapper.Map<Invoice>(invoiceDto);
-            invoice.PostOperatorId = invoicesRepository.GetPostOperatorIdByName(invoiceDto.PostOperatorName);
+            foreach (KeyValuePair<int, string> keyValue in invoicesRepository.GetPostOperatorsIdNames())
+            {
+                if (invoiceDto.PostOperatorName == keyValue.Value)
+                {
+                    invoice.PostOperatorId = keyValue.Key;
+                    break;
+                }
+            }
 
             return invoice;
         }

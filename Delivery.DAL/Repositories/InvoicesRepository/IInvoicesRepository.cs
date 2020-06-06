@@ -35,18 +35,10 @@ namespace Delivery.DAL.Repositories
         IEnumerable<IInvoice> GetByUserId(string userId);
 
         /// <summary>
-        /// Повертає ідентифікатор поштового оператора за назвою
+        /// Повертає словник ідентифікатор:назва поштових операторів, реалізованих в системі Delivery і внесених адміністратором в базу даних
         /// </summary>
-        /// <param name="postOperatorName">Назва поштового оператора</param>
-        /// <returns>Ідентифікатор поштового оператора</returns>
-        int GetPostOperatorIdByName(string postOperatorName);
-
-        /// <summary>
-        /// Повертає назву поштового оператора по ідентифікатору
-        /// </summary>
-        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
-        /// <returns>Назва поштового оператора</returns>
-        string GetPostOperatorNameById(int postOperatorId);
+        /// <returns>словник ідентифікатор:назва поштових операторів</returns>
+        Dictionary<int, string> GetPostOperatorsIdNames();
 
         /// <summary>
         /// Видаляє відправлення по ідентифікатору відправлення

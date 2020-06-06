@@ -23,9 +23,9 @@ namespace Delivery.DAL.Repositories
         /// <summary>
         /// Повертає екземпляр поштового оператора по ідентифікатору
         /// </summary>
-        /// <param name="postOperotorId">Ідентифікатор поштового оператора</param>
+        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
         /// <returns>Eкземпляр поштового оператора</returns>
-        IPostOperator GetById(int postOperotorId);
+        IPostOperator GetById(int postOperatorId);
 
         /// <summary>
         /// Оновлює запис поштового оператора

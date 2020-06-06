@@ -111,7 +111,7 @@ namespace Delivery.DAL.Repositories
                 }
                 catch (SqlException)
                 {
-                    throw new Exception("Помилка отримання екземпляру поштового оператора з бази даних.");
+                    throw new Exception("Помилка отримання списку поштових операторів з бази даних.");
                 }
             }
             return listOfPostOperators;
@@ -120,9 +120,9 @@ namespace Delivery.DAL.Repositories
         /// <summary>
         /// Повертає екземпляр поштового оператора по ідентифікатору
         /// </summary>
-        /// <param name="postOperotorId">Ідентифікатор поштового оператора</param>
+        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
         /// <returns>Eкземпляр поштового оператора</returns>
-        public IPostOperator GetById(int postOperotorId)
+        public IPostOperator GetById(int postOperatorId)
         {
             IPostOperator postOperator = new PostOperator();
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -143,21 +143,20 @@ namespace Delivery.DAL.Repositories
                     CommandType = CommandType.StoredProcedure,
                 };
 
-                cmd.Parameters.AddWithValue("@Id", postOperotorId);
+                cmd.Parameters.AddWithValue("@Id", postOperatorId);
 
                 try
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
-                        {
-                            postOperator.Id = postOperotorId;
-                            postOperator.Name = reader["Name"].ToString();
-                            postOperator.LinkToSearchPage = reader["LinkToSearchPage"].ToString();
-                            postOperator.PathToLogoImage = reader["PathToLogoImage"].ToString();
-                            postOperator.IsActive = bool.Parse(reader["IsActive"].ToString());
-                            postOperator.Notes = reader["Notes"].ToString();
-                        }
+                        reader.Read();
+                        postOperator.Id = postOperatorId;
+                        postOperator.Name = reader["Name"].ToString();
+                        postOperator.LinkToSearchPage = reader["LinkToSearchPage"].ToString();
+                        postOperator.PathToLogoImage = reader["PathToLogoImage"].ToString();
+                        postOperator.IsActive = bool.Parse(reader["IsActive"].ToString());
+                        postOperator.Notes = reader["Notes"].ToString();
+
                     }
                 }
                 catch (SqlException)
