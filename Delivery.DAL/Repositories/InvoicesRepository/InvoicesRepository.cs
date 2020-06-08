@@ -206,6 +206,8 @@ namespace Delivery.DAL.Repositories
                     CommandType = CommandType.StoredProcedure,
                 };
 
+                cmd.Parameters.AddWithValue("@AccountUserId", userId);
+
                 try
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())

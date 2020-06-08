@@ -1,4 +1,5 @@
 ﻿using Delivery.BLL.DTO;
+using System.Threading.Tasks;
 
 namespace Delivery.BLL.Services
 {
@@ -18,7 +19,7 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="number">Номер відправлення</param>
         /// <returns>Актуальний статус відправлення</returns>
-        string GetStatus(string number);
+        Task<string> GetStatus(string number);
 
         /// <summary>
         /// Шукає поштове відправлення по номеру і повертає Dto модель, включаючи назву оператора

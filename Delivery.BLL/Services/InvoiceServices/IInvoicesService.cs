@@ -1,5 +1,6 @@
 ﻿using Delivery.BLL.DTO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Delivery.BLL.Services
 {
@@ -14,7 +15,8 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="userId">Ідентифікатр користувача</param>
         /// <param name="number">Номер відправлення</param>
-        void Add(string userId, string number);
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        void Add(string userId, string number, Dictionary<string, string> apiKeys);
 
         /// <summary>
         /// Повертає усі створені користувачами відправлення в сервісі Delivery
@@ -52,13 +54,15 @@ namespace Delivery.BLL.Services
         /// Пошук відправлення по номеру
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
         /// <returns>Модель Dto відправлення</returns>
-        InvoiceDto SearchByNumber(string number);
+        InvoiceDto SearchByNumber(string number, Dictionary<string, string> apiKeys);
 
         /// <summary>
         /// Оновлює статус поштового відправлення
         /// </summary>
         /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        void UpdateStatus(int invoiceId);
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        Task UpdateStatusAsync(int invoiceId, Dictionary<string, string> apiKeys);
     }
 }

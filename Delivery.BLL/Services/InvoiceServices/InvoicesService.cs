@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Delivery.BLL.DTO;
 using Delivery.BLL.Validators;
@@ -35,9 +36,10 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="userId">Ідентифікатр користувача</param>
         /// <param name="number">Номер відправлення</param>
-        public void Add(string userId, string number)
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        public void Add(string userId, string number, Dictionary<string, string> apiKeys)
         {
-            var invoiceDto = SearchByNumber(number);
+            var invoiceDto = SearchByNumber(number, apiKeys);
             if (invoiceDto != null)
             {
                 Invoice invoice = ConvertDtoToInvoice(invoiceDto);
@@ -112,12 +114,13 @@ namespace Delivery.BLL.Services
         /// Пошук відправлення по номеру
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
-        public InvoiceDto SearchByNumber(string number)
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        public InvoiceDto SearchByNumber(string number, Dictionary<string, string> apiKeys)
         {
             try
             {
                 InvoiceDto invoiceDto = null;
-                foreach (var agent in FactoryOfAgents.GetAllAgents())
+                foreach (var agent in FactoryOfAgents.GetAllAgents(apiKeys))
                 {
                     invoiceDto = agent.SearchByNumber(number);
                     if (invoiceDto != null) break;
@@ -134,18 +137,27 @@ namespace Delivery.BLL.Services
         /// Оновлює статус поштового відправлення
         /// </summary>
         /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        public void UpdateStatus(int invoiceId)
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        public async Task UpdateStatusAsync(int invoiceId, Dictionary<string, string> apiKeys)
         {
             var invoice = invoicesRepository.GetById(invoiceId);
             if (invoice != null)
             {
                 string postOperatorName = invoicesRepository.GetPostOperatorsIdNames()[invoiceId];
-                foreach (var agent in FactoryOfAgents.GetAllAgents())
+                foreach (var agent in FactoryOfAgents.GetAllAgents(apiKeys))
                 {
                     if (postOperatorName == agent.GetName())
                     {
-                        invoicesRepository.UpdateStatus(invoiceId, agent.GetStatus(invoice.Number));
-                        break;
+                        string status = await agent.GetStatus(invoice.Number);
+                        if (status != "")
+                        {
+                            invoicesRepository.UpdateStatus(invoiceId, status);
+                            break;
+                        }
+                        else
+                        {
+                            throw new Exception("Відправлення не знайдено.");
+                        }
                     }
                 }
             }

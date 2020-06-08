@@ -19,7 +19,7 @@ namespace Delivery.BLL.Validators
                 .Must(BeValidName);
             RuleFor(po => po.LinkToSearchPage)
                 .NotEmpty().WithMessage("Введіть адресу пошукової сторінки від 7 до 300 символів.")
-                .Length(7, 300).WithMessage("Довжина адресу пошукової сторінки від 7 до 300 символів.");
+                .Length(7, 300).WithMessage("Довжина адреси пошукової сторінки від 7 до 300 символів.");
             RuleFor(po => po.PathToLogoImage)
                 .NotEmpty().WithMessage("Введіть шлях до файлу від 2 до 300 символів.")
                 .Length(4, 300).WithMessage("Довжина шляху до файлу від 2 до 300 символів.");
@@ -31,7 +31,7 @@ namespace Delivery.BLL.Validators
 
         private bool BeValidName(string arg)
         {
-            // TODO - тільки зі списку імен реалізованих в системі пошукових агентів
+            // тільки зі списку імен реалізованих в системі пошукових агентів
             return arg.Contains("Нова Пошта")||arg.Contains("Укрпошта");
         }
     }

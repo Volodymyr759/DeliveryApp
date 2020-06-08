@@ -14,8 +14,8 @@ namespace Delivery.Web.Tests.Controllers
     [TestClass]
     public class MainControllerTests
     {
-        readonly Mock<IPostOperatorService> mockPostOperatorService = new Mock<IPostOperatorService>();
-        readonly Mock<IInvoicesService> mockInvoicesService = new Mock<IInvoicesService>();
+        private Mock<IPostOperatorService> mockPostOperatorService ;
+        private Mock<IInvoicesService> mockInvoicesService;
 
         private string errorMessage;
         private ViewResult result;
@@ -23,12 +23,21 @@ namespace Delivery.Web.Tests.Controllers
         [TestInitialize]
         public void TestInit()
         {
+            mockPostOperatorService = new Mock<IPostOperatorService>();
+            mockInvoicesService = new Mock<IInvoicesService>();
             errorMessage = "";
             result = null;
         }
 
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            mockPostOperatorService = null;
+            mockInvoicesService = null;
+        }
+
         [TestMethod]
-        public void Index_ShouldReturn_ViewAndNotEmptyListOfOperators()
+        public void Index_ShouldReturn_ViewAndNotEmptyModel()
         {
             // Arrange
             var postOperators = new List<PostOperatorDto>
@@ -39,12 +48,12 @@ namespace Delivery.Web.Tests.Controllers
             mockPostOperatorService.Setup(pos => pos.GetAll()).Returns(postOperators);
             MainController controller = new MainController(new DeliveryMessage(), mockPostOperatorService.Object, mockInvoicesService.Object);
 
-            IEnumerable<PostOperatorViewModel> postOperatorViewModels = new List<PostOperatorViewModel>();
+            MainIndexViewModel model = null;
             try
             {
                 // Act
                 result = controller.Index() as ViewResult;
-                postOperatorViewModels = (List<PostOperatorViewModel>)result.ViewData.Model;
+                model = (MainIndexViewModel)result.ViewData.Model;
 
             }
             catch (Exception ex)
@@ -53,22 +62,22 @@ namespace Delivery.Web.Tests.Controllers
             }
             // Assert
             Assert.IsNotNull(result, errorMessage);
-            Assert.IsTrue(postOperatorViewModels.Count() > 0, errorMessage);
+            Assert.IsTrue(model.PostOperators.Count() > 0, errorMessage);
         }
 
         [TestMethod]
-        public void SearchInvoiceByNumber_CorrectNumber_ShouldReturn_ViewAndNotEmtyInvoice()
+        public void Invoice_Post_CorrectNumber_ShouldReturn_ViewAndNotEmtyInvoice()
         {
             // Arrange
             InvoiceDto invoiceDto = new InvoiceDto { };
-            mockInvoicesService.Setup(s => s.SearchByNumber("123456")).Returns(invoiceDto);
+            mockInvoicesService.Setup(s => s.SearchByNumber("123456", new Dictionary<string, string>())).Returns(invoiceDto);
             MainController controller = new MainController(new DeliveryMessage(), mockPostOperatorService.Object, mockInvoicesService.Object);
 
             InvoiceViewModel invoiceViewModel = null;
             try
             {
                 // Act
-                result = controller.SearchInvoiceByNumber(new SearchInvoiceViewModel { Number = "123456" }) as ViewResult;
+                result = controller.Index(new MainIndexViewModel { Number = "123456" }) as ViewResult;
                 invoiceViewModel = (InvoiceViewModel)result.Model;
             }
             catch (Exception ex)
@@ -82,18 +91,18 @@ namespace Delivery.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void SearchInvoiceByNumber_UnCorrectNumber_ShouldReturn_DeliveryMessage()
+        public void Invoice_Post_UnCorrectNumber_ShouldReturn_DeliveryMessage()
         {
             // Arrange
             InvoiceDto invoiceDto = null;
-            mockInvoicesService.Setup(s => s.SearchByNumber("")).Returns(invoiceDto);
+            mockInvoicesService.Setup(s => s.SearchByNumber("", new Dictionary<string, string>())).Returns(invoiceDto);
             MainController controller = new MainController(new DeliveryMessage(), mockPostOperatorService.Object, mockInvoicesService.Object);
 
             DeliveryMessage deliveryMessage = null;
             try
             {
                 // Act
-                result = controller.SearchInvoiceByNumber(new SearchInvoiceViewModel { Number = "" }) as ViewResult;
+                result = controller.Index(new MainIndexViewModel { Number = "" }) as ViewResult;
                 deliveryMessage = (DeliveryMessage)result.Model;
             }
             catch (Exception ex)

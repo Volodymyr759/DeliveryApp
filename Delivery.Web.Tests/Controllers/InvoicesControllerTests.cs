@@ -13,7 +13,7 @@ namespace Delivery.Web.Tests
     [TestClass]
     public class InvoicesControllerTests
     {
-        private readonly Mock<IInvoicesService> mockInvoicesService = new Mock<IInvoicesService>();
+        private Mock<IInvoicesService> mockInvoicesService;
 
         private string errorMessage;
 
@@ -22,8 +22,15 @@ namespace Delivery.Web.Tests
         [TestInitialize]
         public void TestInit()
         {
+            mockInvoicesService = new Mock<IInvoicesService>();
             errorMessage = "";
             result = null;
+        }
+
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            mockInvoicesService = null;
         }
 
         [TestMethod]
@@ -121,7 +128,7 @@ namespace Delivery.Web.Tests
         public void Create_ShouldReturn_Success()
         {
             // Arrange
-            mockInvoicesService.Setup(i => i.Add("userId", "number"));
+            mockInvoicesService.Setup(i => i.Add("userId", "number", new Dictionary<string, string>()));
             InvoicesController controller = new InvoicesController(new DeliveryMessage(), mockInvoicesService.Object);
 
             try
@@ -165,7 +172,7 @@ namespace Delivery.Web.Tests
         {
             // Arrange
             int id = 1;
-            mockInvoicesService.Setup(i => i.UpdateStatus(id));
+            mockInvoicesService.Setup(i => i.UpdateStatusAsync(id, new Dictionary<string, string>()));
             mockInvoicesService.Setup(i => i.GetById(id)).Returns(new InvoiceDto { Id = 1 });
             InvoicesController controller = new InvoicesController(new DeliveryMessage(), mockInvoicesService.Object);
             bool operationSucceded = false;

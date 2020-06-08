@@ -10,12 +10,13 @@ namespace Delivery.BLL.Services
         /// <summary>
         /// Повертає список реалізованих в системі Delivery пошукових агентів
         /// </summary>
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
         /// <returns>Список пошукових агентів</returns>
-        public static IEnumerable<ISearchAgent> GetAllAgents()
+        public static IEnumerable<ISearchAgent> GetAllAgents(Dictionary<string, string> apiKeys)
         {
             var listOfAgents = new List<ISearchAgent>
             {
-                new ApiSearcherAgent(),
+                new ApiSearcherAgent(apiKeys["ApiKeyNovaPoshta"]),
                 new HtmlSearcherAgent()
             };
 

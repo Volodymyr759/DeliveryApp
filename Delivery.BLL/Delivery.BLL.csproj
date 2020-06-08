@@ -54,10 +54,14 @@
     <Compile Include="Services\InvoiceServices\InvoicesService.cs" />
     <Compile Include="Services\PostOperatorServices\IPostOperatorService.cs" />
     <Compile Include="Services\PostOperatorServices\PostOperatorService.cs" />
+    <Compile Include="Services\SearchAgents\Api\ApiDocument.cs" />
     <Compile Include="Services\SearchAgents\FactoryOfAgents.cs" />
     <Compile Include="Services\SearchAgents\ApiSearcherAgent.cs" />
     <Compile Include="Services\SearchAgents\HtmlSearcherAgent.cs" />
+    <Compile Include="Services\SearchAgents\Api\ApiInvoicesModel.cs" />
+    <Compile Include="Services\SearchAgents\Api\ApiInvoiceResultModel.cs" />
     <Compile Include="Services\SearchAgents\ISearchAgent.cs" />
+    <Compile Include="Services\SearchAgents\Api\MethodProperties.cs" />
     <Compile Include="Validators\InvoicesValidator.cs" />
     <Compile Include="Validators\PostOperatorsValidator.cs" />
     <Compile Include="Validators\ValidationResultsHelper.cs" />
@@ -75,6 +79,12 @@
     </PackageReference>
     <PackageReference Include="FluentValidation">
       <Version>8.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client">
+      <Version>5.2.7</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

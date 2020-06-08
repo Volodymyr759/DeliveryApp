@@ -18,13 +18,20 @@ namespace Delivery.Web.Tests.Services
 
         private readonly string connString = "";
 
-        private readonly Mock<IPostOperatorsRepository> mockPostOperatorsRepo = new Mock<IPostOperatorsRepository>();
+        private Mock<IPostOperatorsRepository> mockPostOperatorsRepo;
 
         [TestInitialize]
         public void MyTestInitialize()
         {
+            mockPostOperatorsRepo = new Mock<IPostOperatorsRepository>();
             errorMessage = "";
             operationSucceded = false;
+        }
+
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            mockPostOperatorsRepo = null;
         }
 
         [TestMethod]
@@ -33,9 +40,9 @@ namespace Delivery.Web.Tests.Services
             //Arrange
             PostOperatorDto postOperatorDto = new PostOperatorDto
             {
-                Name = "Federal Express",
-                LinkToSearchPage = "link3",
-                PathToLogoImage = "path3",
+                Name = "Нова Пошта",
+                LinkToSearchPage = "link123",
+                PathToLogoImage = "path123",
                 IsActive = true,
                 Notes = "notes 3"
             };
@@ -116,16 +123,16 @@ namespace Delivery.Web.Tests.Services
             // Arrange
             PostOperator postOperator = new PostOperator
             {
-                Name = "Federal Express",
-                LinkToSearchPage = "link3",
+                Name = "Нова Пошта",
+                LinkToSearchPage = "link123",
                 PathToLogoImage = "path3",
                 IsActive = false,
                 Notes = "notes 3"
             };
             PostOperatorDto postOperatorDto = new PostOperatorDto
             {
-                Name = "Federal Express",
-                LinkToSearchPage = "link3",
+                Name = "Нова Пошта",
+                LinkToSearchPage = "link123",
                 PathToLogoImage = "path3",
                 IsActive = true,
                 Notes = "notes 3"

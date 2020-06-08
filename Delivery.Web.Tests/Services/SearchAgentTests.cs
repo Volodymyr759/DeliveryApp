@@ -9,7 +9,7 @@ namespace Delivery.Web.Tests.Services
     public class SearchAgentTests
     {
         private string errorMessage;
-        private readonly ApiSearcherAgent apiAgent = new ApiSearcherAgent();
+        private readonly ApiSearcherAgent apiAgent = new ApiSearcherAgent("");
         private readonly HtmlSearcherAgent htmlAgent = new HtmlSearcherAgent();
 
         [TestInitialize]
@@ -41,7 +41,7 @@ namespace Delivery.Web.Tests.Services
         }
 
         [TestMethod]
-        public void GetStatus_ShouldReturn_Status()
+        public async void GetStatus_ShouldReturn_Status()
         {
             // Arrange
             string statusFromApiAgent = null, statusFromHtmlAgent = null;
@@ -49,8 +49,8 @@ namespace Delivery.Web.Tests.Services
             try
             {
                 // Act 
-                statusFromApiAgent = apiAgent.GetStatus("123456");// Put correct example of number
-                statusFromHtmlAgent = htmlAgent.GetStatus("1234567890");// Put correct example of number
+                statusFromApiAgent = await apiAgent.GetStatus("123456");// Put correct example of number
+                statusFromHtmlAgent = await htmlAgent.GetStatus("1234567890");// Put correct example of number
             }
             catch (Exception ex)
             {

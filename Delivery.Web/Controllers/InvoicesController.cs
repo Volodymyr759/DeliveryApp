@@ -2,8 +2,11 @@
 using Delivery.BLL.DTO;
 using Delivery.BLL.Services;
 using Delivery.Web.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Delivery.Web.Controllers
@@ -38,7 +41,7 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                string userId = "";// User.Identity.GetUserId(); TODO - uncomment after testing process
+                string userId = User.Identity.GetUserId(); //"";// TODO - uncomment after testing process
                 var invoicesDtos = invoicesService.GetInvoicesByUserId(userId);
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
                     .ForMember("Notes", opt => opt.MapFrom(dto => dto.PostOperatorName + Environment.NewLine +
@@ -123,8 +126,10 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                invoicesService.Add("", model.Number);
-                //invoicesService.Add(User.Identity.GetUserId(), number);TODO - uncomment after testing process
+                invoicesService.Add("", model.Number, new Dictionary<string, string>
+                    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } });
+                //invoicesService.Add(User.Identity.GetUserId(), model.Number, new Dictionary<string, string>
+                //    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } }); //TODO - uncomment in production (previous line is only for testing)
                 return View("Create");
             }
             catch (Exception ex)
@@ -202,7 +207,8 @@ namespace Delivery.Web.Controllers
                 InvoiceDto invoiceDto = invoicesService.GetById((int)id);
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
 
-                invoicesService.UpdateStatus((int)id);
+                invoicesService.UpdateStatusAsync((int)id, new Dictionary<string, string>
+                    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } });
 
                 return RedirectToAction("Details", id);
             }

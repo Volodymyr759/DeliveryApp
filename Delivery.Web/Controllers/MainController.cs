@@ -4,6 +4,7 @@ using Delivery.BLL.Services;
 using Delivery.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Delivery.Web.Controllers
@@ -48,11 +49,13 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorDto, PostOperatorViewModel>()).CreateMapper();
-                List<PostOperatorViewModel> postOperatorViewModels = mapper
-                    .Map<List<PostOperatorViewModel>>((List<PostOperatorDto>)postOperatorsService.GetAll());
+                var mainIndexViewModel = new MainIndexViewModel
+                {
+                    Number = "",
+                    PostOperators = postOperatorsService.GetAll()
+                };
 
-                return View(postOperatorViewModels);
+                return View(mainIndexViewModel);
             }
             catch (Exception ex)
             {
@@ -68,15 +71,19 @@ namespace Delivery.Web.Controllers
         /// </summary>
         /// <param name="model">Модель пошуку поштового відправлення</param>
         /// <returns>Сторінка з інформацією про відправлення або повідомлення про відсутність даних</returns>
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public ActionResult SearchInvoiceByNumber(SearchInvoiceViewModel model)
+        public ActionResult Index(MainIndexViewModel model)
         {
             try
             {
                 if (model.Number.Length < 6 || model.Number.Length > 30)
                     throw new Exception("Введіть номер від 6 до 30 символів.");
-                var invoiceDto = invoicesService.SearchByNumber(model.Number);
+                Dictionary<string, string> apiKeys = new Dictionary<string, string>
+                { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } };
+
+                var invoiceDto = invoicesService.SearchByNumber(model.Number, new Dictionary<string, string>
+                    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } });
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
 
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
@@ -95,5 +102,6 @@ namespace Delivery.Web.Controllers
                 return View("DeliveryMessage", deliveryMessage);
             }
         }
+
     }
 }

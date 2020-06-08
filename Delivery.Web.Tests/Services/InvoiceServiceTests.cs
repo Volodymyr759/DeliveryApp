@@ -18,13 +18,20 @@ namespace Delivery.Web.Tests.Services
 
         private readonly string connString = "";
 
-        private readonly Mock<IInvoicesRepository> mockInvoicesRepo = new Mock<IInvoicesRepository>();
+        private Mock<IInvoicesRepository> mockInvoicesRepo;
 
         [TestInitialize]
         public void MyTestInitialize()
         {
+            mockInvoicesRepo = new Mock<IInvoicesRepository>();
             errorMessage = "";
             operationSucceded = false;
+        }
+
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            mockInvoicesRepo = null;
         }
 
         [TestMethod]

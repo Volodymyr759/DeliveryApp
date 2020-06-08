@@ -184,6 +184,7 @@
     <Compile Include="Models\IDeliveryMessage.cs" />
     <Compile Include="Models\InvoiceViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\MainIndexViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PostOperatorViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
@@ -212,7 +213,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -225,12 +225,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\Register.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\DeliveryMessage.cshtml" />
     <Content Include="Views\Invoices\Details.cshtml" />
@@ -246,6 +240,7 @@
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Admin\UserDetails.cshtml" />
     <Content Include="Views\Admin\DeleteUser.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

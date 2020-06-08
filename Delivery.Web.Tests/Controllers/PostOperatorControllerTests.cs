@@ -13,7 +13,7 @@ namespace Delivery.Web.Tests.Controllers
     [TestClass]
     public class PostOperatorControllerTests
     {
-        readonly Mock<IPostOperatorService> mockPostOperatorService = new Mock<IPostOperatorService>();
+        private Mock<IPostOperatorService> mockPostOperatorService;
 
         private string errorMessage;
 
@@ -22,9 +22,17 @@ namespace Delivery.Web.Tests.Controllers
         [TestInitialize]
         public void TestInit()
         {
+            mockPostOperatorService = new Mock<IPostOperatorService>();
             errorMessage = "";
             result = null;
         }
+
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            mockPostOperatorService = null;
+        }
+
         [TestMethod]
         public void Index_ShouldReturn_ViewAndListOfPostOperators()
         {

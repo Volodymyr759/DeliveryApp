@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Delivery.BLL.DTO;
 
 namespace Delivery.BLL.Services
@@ -24,7 +25,7 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="number">Номер відправлення</param>
         /// <returns>Актуальний статус відправлення</returns>
-        public string GetStatus(string number)
+        public async Task<string> GetStatus(string number)
         {
             throw new NotImplementedException();
         }

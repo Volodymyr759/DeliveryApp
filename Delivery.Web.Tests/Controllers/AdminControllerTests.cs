@@ -16,9 +16,9 @@ namespace Delivery.Web.Tests.Controllers
     [TestClass]
     public class AdminControllerTests
     {
-        readonly Mock<IAdminService> mockAdminService = new Mock<IAdminService>();
+        private Mock<IAdminService> mockAdminService;
 
-        readonly Mock<IInvoicesService> mockInvoicesService = new Mock<IInvoicesService>();
+        private Mock<IInvoicesService> mockInvoicesService;
 
         private string errorMessage;
 
@@ -27,8 +27,17 @@ namespace Delivery.Web.Tests.Controllers
         [TestInitialize]
         public void TestInit()
         {
+            mockAdminService = new Mock<IAdminService>();
+            mockInvoicesService = new Mock<IInvoicesService>();
             errorMessage = "";
             result = null;
+        }
+
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            mockAdminService = null;
+            mockInvoicesService = null;
         }
 
         [TestMethod]
