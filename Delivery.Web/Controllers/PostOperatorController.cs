@@ -99,7 +99,6 @@ namespace Delivery.Web.Controllers
         /// <param name="id">Ідентифікатор поштового оператора</param>
         /// <returns></returns>
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(int? id)
         {
             try

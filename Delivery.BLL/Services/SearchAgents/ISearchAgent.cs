@@ -26,6 +26,6 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
         /// <returns>Екземпляр Dto моделі відправлення</returns>
-        InvoiceDto SearchByNumber(string number);
+        Task<InvoiceDto> SearchByNumber(string number);
     }
 }

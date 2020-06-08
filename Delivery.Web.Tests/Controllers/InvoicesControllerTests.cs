@@ -128,7 +128,7 @@ namespace Delivery.Web.Tests
         public void Create_ShouldReturn_Success()
         {
             // Arrange
-            mockInvoicesService.Setup(i => i.Add("userId", "number", new Dictionary<string, string>()));
+            mockInvoicesService.Setup(i => i.Add("userId", "number"));
             InvoicesController controller = new InvoicesController(new DeliveryMessage(), mockInvoicesService.Object);
 
             try
@@ -172,7 +172,7 @@ namespace Delivery.Web.Tests
         {
             // Arrange
             int id = 1;
-            mockInvoicesService.Setup(i => i.UpdateStatusAsync(id, new Dictionary<string, string>()));
+            mockInvoicesService.Setup(i => i.UpdateStatusAsync(id));
             mockInvoicesService.Setup(i => i.GetById(id)).Returns(new InvoiceDto { Id = 1 });
             InvoicesController controller = new InvoicesController(new DeliveryMessage(), mockInvoicesService.Object);
             bool operationSucceded = false;

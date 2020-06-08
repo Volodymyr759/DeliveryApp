@@ -23,6 +23,10 @@ namespace Delivery.Web.App_Start
         public static void RegisterComponents()
         {
             string connectionString = WebConfigurationManager.ConnectionStrings["DeliveryConnection"].ConnectionString;
+            Dictionary<string, string> apiKeys = new Dictionary<string, string>
+                {
+                    { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] }
+                };
 
             var container = new UnityContainer()
                 .RegisterType<IDeliveryMessage, DeliveryMessage>(new ContainerControlledLifetimeManager())
@@ -35,8 +39,8 @@ namespace Delivery.Web.App_Start
 
                 .RegisterType<IInvoice, Invoice>(new ContainerControlledLifetimeManager())
                 .RegisterType<IInvoicesRepository, InvoicesRepository>(new InjectionConstructor(connectionString))
-                .RegisterType<IInvoicesService, InvoicesService>(new InjectionConstructor(connectionString, new InvoicesRepository(connectionString)));
-                
+                .RegisterType<IInvoicesService, InvoicesService>(new InjectionConstructor(connectionString, new InvoicesRepository(connectionString), apiKeys));
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

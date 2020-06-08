@@ -14,7 +14,7 @@ namespace Delivery.BLL.Services
     /// </summary>
     public class ApiSearcherAgent : ISearchAgent
     {
-        private readonly string name = "New Post";
+        private readonly string name = "Нова Пошта";
 
         private readonly string apiKey;
 
@@ -53,9 +53,26 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
         /// <returns>Екземпляр Dto моделі відправлення</returns>
-        public InvoiceDto SearchByNumber(string number)
+        public async Task<InvoiceDto> SearchByNumber(string number)
         {
-            throw new NotImplementedException();
+            InvoiceDto invoiceDto = null;
+            var apiInvoice = (await GetInvoices()).Where(i => i.IntDocNumber == number).FirstOrDefault();
+            if (apiInvoice != null)
+            {
+                invoiceDto.PostOperatorName = name;
+                invoiceDto.Number = number;
+                invoiceDto.SendDateTime = Convert.ToDateTime(apiInvoice.Datetime);
+                invoiceDto.Sender = apiInvoice.SendersPhone;
+                invoiceDto.SenderAddress = apiInvoice.CitySenderDescription + ": " + apiInvoice.SenderAddressDescription;
+                invoiceDto.Recipient = apiInvoice.CityRecipientDescription;
+                invoiceDto.RecipientAddress = apiInvoice.RecipientAddressDescription;
+                invoiceDto.CurrentLocation = "Не вказано";
+                invoiceDto.ActualStatus = apiInvoice.StateName;
+                invoiceDto.Notes = "Вартість: " + apiInvoice.CostOnSite + " Тип доставки: " + apiInvoice.ServiceType + 
+                    " Вага: " + apiInvoice.Weight + " Вид оплати: " + apiInvoice.PaymentMethod + " Платник: " + apiInvoice.PayerType + 
+                    " Опис: " + apiInvoice.Description;
+            }
+            return invoiceDto;
         }
 
         private async Task<List<ApiInvoicesModel>> GetInvoices()

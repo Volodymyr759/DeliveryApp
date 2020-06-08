@@ -13,14 +13,14 @@ namespace Delivery.Web.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Шлях до розташування зображення лого поштового оператора на хост-сервері сервісу Delivery
-        /// </summary>
-        public string PathToLogoImage { get; set; }
-
-        /// <summary>
         /// Номер відправлення в інформаційній системі поштового оператора
         /// </summary>
         public string Number { get; set; }
+
+        /// <summary>
+        /// Назва поштового оператора
+        /// </summary>
+        public string PostOperatorName { get; set; }
 
         /// <summary>
         /// Дата відправлення за даними інформаційної системи поштового оператора

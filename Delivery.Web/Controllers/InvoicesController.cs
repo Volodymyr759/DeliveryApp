@@ -44,15 +44,9 @@ namespace Delivery.Web.Controllers
                 string userId = User.Identity.GetUserId(); //"";// TODO - uncomment after testing process
                 var invoicesDtos = invoicesService.GetInvoicesByUserId(userId);
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.PostOperatorName + Environment.NewLine +
-                              dto.Sender + Environment.NewLine +
-                              dto.SenderAddress + Environment.NewLine +
-                              dto.Recipient + Environment.NewLine +
-                              dto.RecipientAddress + Environment.NewLine))).CreateMapper();
-                List<InvoiceViewModel> invoicesViewModels = mapper
-                    .Map<List<InvoiceViewModel>>(invoicesDtos);
-                // TODO - код додавання властивостей PostOperatorName, PathToLogoImage або відповідну транзакцію в репо
-                return View(invoicesViewModels);
+                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
+                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
+                return View(mapper.Map<List<InvoiceViewModel>>(invoicesDtos));
             }
             catch (Exception ex)
             {
@@ -68,22 +62,16 @@ namespace Delivery.Web.Controllers
         /// <param name="id">Ідентифікатор відправлення</param>
         /// <returns>Сторінка інформації про відправлення</returns>
         [HttpGet]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
             try
             {
-                if (id == null) throw new Exception("Не обрано відправлення для відображення.");
-                var invoiceDto = invoicesService.GetById((int)id);
+                var invoiceDto = invoicesService.GetById(id);
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
 
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.PostOperatorName + Environment.NewLine +
-                                  dto.Sender + Environment.NewLine +
-                                  dto.SenderAddress + Environment.NewLine +
-                                  dto.Recipient + Environment.NewLine +
-                                  dto.RecipientAddress + Environment.NewLine))).CreateMapper();
-                //InvoiceViewModel invoice = mapper.Map<InvoiceViewModel>(invoiceDto);
-                // TODO - код додавання властивостей PostOperatorName, PathToLogoImage або відповідну транзакцію в репо
+                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
+                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
 
                 return View("Details", mapper.Map<InvoiceViewModel>(invoiceDto));
             }
@@ -126,10 +114,9 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                invoicesService.Add("", model.Number, new Dictionary<string, string>
-                    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } });
-                //invoicesService.Add(User.Identity.GetUserId(), model.Number, new Dictionary<string, string>
-                //    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } }); //TODO - uncomment in production (previous line is only for testing)
+                //invoicesService.Add("", model.Number);//TODO - uncomment for testing
+                invoicesService.Add(User.Identity.GetUserId(), model.Number);
+
                 return View("Create");
             }
             catch (Exception ex)
@@ -155,11 +142,8 @@ namespace Delivery.Web.Controllers
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
 
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.PostOperatorName + Environment.NewLine +
-                                  dto.Sender + Environment.NewLine +
-                                  dto.SenderAddress + Environment.NewLine +
-                                  dto.Recipient + Environment.NewLine +
-                                  dto.RecipientAddress + Environment.NewLine))).CreateMapper();
+                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
+                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
 
                 return View(mapper.Map<InvoiceViewModel>(invoiceDto));
             }
@@ -199,16 +183,14 @@ namespace Delivery.Web.Controllers
         /// <param name="id">Ідентифікатор відправлення</param>
         /// <returns>Перехід на сторінку інформації про відправлення</returns>
         [HttpPost]
-        public ActionResult UpdateStatus(int? id)
+        public ActionResult UpdateStatus(int id)
         {
             try
             {
-                if (id == null) throw new Exception("Не обрано відправлення для оновлення статусу.");
-                InvoiceDto invoiceDto = invoicesService.GetById((int)id);
+                InvoiceDto invoiceDto = invoicesService.GetById(id);
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
 
-                invoicesService.UpdateStatusAsync((int)id, new Dictionary<string, string>
-                    { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } });
+                invoicesService.UpdateStatusAsync(id);
 
                 return RedirectToAction("Details", id);
             }

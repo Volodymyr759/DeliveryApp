@@ -39,7 +39,7 @@ namespace Delivery.Web.Tests.Services
         {
             // Arrange
             mockInvoicesRepo.Setup(i => i.GetAll()).Returns(new List<Invoice>());
-            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object);
+            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object, new Dictionary<string, string>());
 
             List<InvoiceDto> invoiceDtos = null;
             try
@@ -62,7 +62,7 @@ namespace Delivery.Web.Tests.Services
             // Arrange
             int invoiceId = 1;
             mockInvoicesRepo.Setup(i => i.GetById(invoiceId)).Returns(new Invoice());
-            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object);
+            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object, new Dictionary<string, string>());
 
             InvoiceDto invoiceDto = null;
             try
@@ -85,7 +85,7 @@ namespace Delivery.Web.Tests.Services
             // Arrange
             string userId = "";
             mockInvoicesRepo.Setup(i => i.GetByUserId(userId)).Returns(new List<Invoice>());
-            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object);
+            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object, new Dictionary<string, string>());
 
             List<InvoiceDto> invoiceDtos = null;
             try
@@ -108,7 +108,7 @@ namespace Delivery.Web.Tests.Services
             // Arrange
             int invoiceId = 1;
             mockInvoicesRepo.Setup(i => i.Delete(invoiceId));
-            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object);
+            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object, new Dictionary<string, string>());
 
             try
             {
@@ -131,7 +131,7 @@ namespace Delivery.Web.Tests.Services
             // Arrange
             string userId = "";
             mockInvoicesRepo.Setup(i => i.DeleteByUserId(userId));
-            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object);
+            InvoicesService invoicesService = new InvoicesService(connString, mockInvoicesRepo.Object, new Dictionary<string, string>());
 
             try
             {

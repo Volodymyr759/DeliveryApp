@@ -25,7 +25,7 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="number">Номер відправлення</param>
         /// <returns>Актуальний статус відправлення</returns>
-        public async Task<string> GetStatus(string number)
+        public Task<string> GetStatus(string number)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
         /// <returns>Екземпляр Dto моделі відправлення</returns>
-        public InvoiceDto SearchByNumber(string number)
+        public Task<InvoiceDto> SearchByNumber(string number)
         {
             throw new NotImplementedException();
         }

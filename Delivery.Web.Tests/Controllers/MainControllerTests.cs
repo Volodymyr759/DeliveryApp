@@ -66,11 +66,11 @@ namespace Delivery.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void Invoice_Post_CorrectNumber_ShouldReturn_ViewAndNotEmtyInvoice()
+        public void Index_Post_CorrectNumber_ShouldReturn_ViewAndNotEmtyInvoice()
         {
             // Arrange
             InvoiceDto invoiceDto = new InvoiceDto { };
-            mockInvoicesService.Setup(s => s.SearchByNumber("123456", new Dictionary<string, string>())).Returns(invoiceDto);
+            mockInvoicesService.Setup(s => s.SearchByNumber("123456")).ReturnsAsync(invoiceDto);
             MainController controller = new MainController(new DeliveryMessage(), mockPostOperatorService.Object, mockInvoicesService.Object);
 
             InvoiceViewModel invoiceViewModel = null;
@@ -91,11 +91,11 @@ namespace Delivery.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void Invoice_Post_UnCorrectNumber_ShouldReturn_DeliveryMessage()
+        public void Index_Post_UnCorrectNumber_ShouldReturn_DeliveryMessage()
         {
             // Arrange
             InvoiceDto invoiceDto = null;
-            mockInvoicesService.Setup(s => s.SearchByNumber("", new Dictionary<string, string>())).Returns(invoiceDto);
+            mockInvoicesService.Setup(s => s.SearchByNumber("")).ReturnsAsync(invoiceDto);
             MainController controller = new MainController(new DeliveryMessage(), mockPostOperatorService.Object, mockInvoicesService.Object);
 
             DeliveryMessage deliveryMessage = null;

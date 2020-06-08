@@ -15,8 +15,7 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="userId">Ідентифікатр користувача</param>
         /// <param name="number">Номер відправлення</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
-        void Add(string userId, string number, Dictionary<string, string> apiKeys);
+        Task Add(string userId, string number);
 
         /// <summary>
         /// Повертає усі створені користувачами відправлення в сервісі Delivery
@@ -54,15 +53,13 @@ namespace Delivery.BLL.Services
         /// Пошук відправлення по номеру
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
         /// <returns>Модель Dto відправлення</returns>
-        InvoiceDto SearchByNumber(string number, Dictionary<string, string> apiKeys);
+        Task<InvoiceDto> SearchByNumber(string number);
 
         /// <summary>
         /// Оновлює статус поштового відправлення
         /// </summary>
         /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
-        Task UpdateStatusAsync(int invoiceId, Dictionary<string, string> apiKeys);
+        Task UpdateStatusAsync(int invoiceId);
     }
 }

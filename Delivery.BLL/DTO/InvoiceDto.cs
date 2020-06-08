@@ -18,11 +18,6 @@ namespace Delivery.BLL.DTO
         public string PostOperatorName { get; set; }
 
         /// <summary>
-        /// Шлях до розташування зображення лого поштового оператора на хост-сервері сервісу Delivery
-        /// </summary>
-        public string PathToLogoImage { get; set; }
-
-        /// <summary>
         /// Номер відправлення в інформаційній системі одного з поштових операторів
         /// </summary>
         public string Number { get; set; }

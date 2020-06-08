@@ -18,6 +18,8 @@ namespace Delivery.BLL.Services
 
         private readonly IInvoicesRepository invoicesRepository;
 
+        private readonly Dictionary<string, string> apiKeys;
+
         private InvoicesValidator invoicesValidator = new InvoicesValidator();
 
         /// <summary>
@@ -25,10 +27,12 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="connectionString">Строка підключення</param>
         /// <param name="invoicesRepository">Об'єкт репозиторію відправлень</param>
-        public InvoicesService(string connectionString, IInvoicesRepository invoicesRepository)
+        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        public InvoicesService(string connectionString, IInvoicesRepository invoicesRepository, Dictionary<string, string> apiKeys)
         {
             this.connectionString = connectionString;
             this.invoicesRepository = invoicesRepository;
+            this.apiKeys = apiKeys;
         }
 
         /// <summary>
@@ -37,13 +41,26 @@ namespace Delivery.BLL.Services
         /// <param name="userId">Ідентифікатр користувача</param>
         /// <param name="number">Номер відправлення</param>
         /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
-        public void Add(string userId, string number, Dictionary<string, string> apiKeys)
+        public async Task Add(string userId, string number)
         {
-            var invoiceDto = SearchByNumber(number, apiKeys);
+            var invoiceDto = await SearchByNumber(number);
             if (invoiceDto != null)
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
+                int postOperatorId = 0;
+                foreach (KeyValuePair<int, string> idName in invoicesRepository.GetPostOperatorsIdNames())
+                {
+                    if (idName.Value == invoiceDto.PostOperatorName)
+                    {
+                        postOperatorId = idName.Key;
+                        break;
+                    }
+                }
+
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, Invoice>()).CreateMapper();
                 Invoice invoice = mapper.Map<Invoice>(invoiceDto);
+                invoice.AccountUserId = userId;
+                invoice.PostOperatorId = postOperatorId;
+
                 var results = invoicesValidator.Validate(invoice);
                 if (results.IsValid)
                 {
@@ -68,7 +85,16 @@ namespace Delivery.BLL.Services
         public IEnumerable<InvoiceDto> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
-            return mapper.Map<List<InvoiceDto>>(invoicesRepository.GetAll());
+
+            List<InvoiceDto> invoiceDtos = new List<InvoiceDto>();
+            foreach (var invoice in invoicesRepository.GetAll())
+            {
+                InvoiceDto invoiceDto = mapper.Map<InvoiceDto>(invoice);
+                invoiceDto.PostOperatorName = invoicesRepository.GetPostOperatorsIdNames()[invoice.PostOperatorId];
+                invoiceDtos.Add(invoiceDto);
+            }
+
+            return invoiceDtos;
         }
 
         /// <summary>
@@ -79,7 +105,12 @@ namespace Delivery.BLL.Services
         public InvoiceDto GetById(int invoiceId)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
-            return mapper.Map<InvoiceDto>(invoicesRepository.GetById(invoiceId));
+
+            Invoice invoice = (Invoice)invoicesRepository.GetById(invoiceId);
+            InvoiceDto invoiceDto = mapper.Map<InvoiceDto>(invoice);
+            invoiceDto.PostOperatorName = invoicesRepository.GetPostOperatorsIdNames()[invoice.PostOperatorId];
+
+            return invoiceDto;
         }
 
         /// <summary>
@@ -90,40 +121,44 @@ namespace Delivery.BLL.Services
         public IEnumerable<InvoiceDto> GetInvoicesByUserId(string userId)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
-            return mapper.Map<List<InvoiceDto>>(invoicesRepository.GetByUserId(userId));
+
+            List<InvoiceDto> invoiceDtos = new List<InvoiceDto>();
+            foreach (var invoice in invoicesRepository.GetByUserId(userId))
+            {
+                InvoiceDto invoiceDto = mapper.Map<InvoiceDto>(invoice);
+                invoiceDto.PostOperatorName = invoicesRepository.GetPostOperatorsIdNames()[invoice.PostOperatorId];
+                invoiceDtos.Add(invoiceDto);
+            }
+
+            return invoiceDtos;
         }
 
         /// <summary>
         /// Видалення відправлення
         /// </summary>
         /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        public void Remove(int invoiceId)
-        {
-            invoicesRepository.Delete(invoiceId);
-        }
+        public void Remove(int invoiceId) => invoicesRepository.Delete(invoiceId);
 
         /// <summary>
         /// Видалення відправлень користувача
         /// </summary>
         /// <param name="userId">Ідентифікатор користувача</param>
-        public void RemoveByUser(string userId)
-        {
-            invoicesRepository.DeleteByUserId(userId);
-        }
+        public void RemoveByUser(string userId) => invoicesRepository.DeleteByUserId(userId);
 
         /// <summary>
         /// Пошук відправлення по номеру
         /// </summary>
         /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
         /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
-        public InvoiceDto SearchByNumber(string number, Dictionary<string, string> apiKeys)
+        public async Task<InvoiceDto> SearchByNumber(string number)
         {
             try
             {
                 InvoiceDto invoiceDto = null;
                 foreach (var agent in FactoryOfAgents.GetAllAgents(apiKeys))
                 {
-                    invoiceDto = agent.SearchByNumber(number);
+                    invoiceDto = await agent.SearchByNumber(number);
+
                     if (invoiceDto != null) break;
                 }
                 return invoiceDto;
@@ -139,7 +174,7 @@ namespace Delivery.BLL.Services
         /// </summary>
         /// <param name="invoiceId">Ідентифікатор відправлення</param>
         /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
-        public async Task UpdateStatusAsync(int invoiceId, Dictionary<string, string> apiKeys)
+        public async Task UpdateStatusAsync(int invoiceId)
         {
             var invoice = invoicesRepository.GetById(invoiceId);
             if (invoice != null)

@@ -64,9 +64,9 @@ namespace Delivery.BLL.Services
             ClaimsIdentity claim = null;
             // Знаходимо користувача
             IdentityUser user = await userManager.FindAsync(userDto.Email, userDto.Password);
-            // авторизуємо його і повертаєм об'ект ClaimsIdentity
-            if (user != null)
-                claim = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            // авторизуємо його і повертаємо ClaimsIdentity
+            if (user != null) claim = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
             return claim;
         }
 
@@ -88,7 +88,7 @@ namespace Delivery.BLL.Services
         /// <returns>Список користувачів</returns>
         public IEnumerable<AppUserDto> GetUsers()
         {
-            var mapper = new MapperConfiguration(cgf => cgf.CreateMap<List<IdentityUser>, List<AppUserDto>>()).CreateMapper();
+            var mapper = new MapperConfiguration(cgf => cgf.CreateMap<IdentityUser, AppUserDto>()).CreateMapper();
 
             return mapper.Map<List<AppUserDto>>(userManager.Users.ToList().OrderBy(u => u.UserName));
         }
