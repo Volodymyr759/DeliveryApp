@@ -79,13 +79,9 @@ namespace Delivery.Web.Controllers
             {
                 if (model.Number.Length < 6 || model.Number.Length > 30)
                     throw new Exception("Введіть номер від 6 до 30 символів.");
-                Dictionary<string, string> apiKeys = new Dictionary<string, string>
-                { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } };
-
                 var invoiceDto = invoicesService.SearchByNumber(model.Number, new Dictionary<string, string>
                     { { "ApiKeyNovaPoshta", WebConfigurationManager.AppSettings["ApiKeyNovaPoshta"] } });
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
-
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
                     .ForMember("Notes", opt => opt.MapFrom(dto => dto.PostOperatorName + Environment.NewLine +
                                   dto.Sender + Environment.NewLine +

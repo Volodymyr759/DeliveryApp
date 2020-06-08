@@ -39,9 +39,8 @@ namespace Delivery.Web.Controllers
             {
                 var postOperatorsDtos = postOperatorService.GetAll();
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorDto, PostOperatorViewModel>()).CreateMapper();
-                List<PostOperatorViewModel> postOperators = mapper.Map<List<PostOperatorViewModel>>(postOperatorsDtos);
 
-                return View("Index", postOperators);
+                return View("Index", mapper.Map<List<PostOperatorViewModel>>(postOperatorsDtos));
             }
             catch (Exception ex)
             {
@@ -131,11 +130,8 @@ namespace Delivery.Web.Controllers
             try
             {
                 if (postOperator == null) throw new Exception("Поштового оператора не знайдено.");
-
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorViewModel, PostOperatorDto>()).CreateMapper();
-                PostOperatorDto postOperatorDto = mapper.Map<PostOperatorDto>(postOperator);
-
-                postOperatorService.UpdatePostOperator(postOperatorDto);
+                postOperatorService.UpdatePostOperator(mapper.Map<PostOperatorDto>(postOperator));
 
                 return RedirectToAction("Index");
             }

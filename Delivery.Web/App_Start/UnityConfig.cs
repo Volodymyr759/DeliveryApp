@@ -18,7 +18,7 @@ namespace Delivery.Web.App_Start
     public static class UnityConfig
     {
         /// <summary>
-        /// Реєструє усі залежності в системі
+        /// Реєструє залежності в системі
         /// </summary>
         public static void RegisterComponents()
         {

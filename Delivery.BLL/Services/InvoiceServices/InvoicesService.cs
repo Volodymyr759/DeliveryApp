@@ -42,7 +42,8 @@ namespace Delivery.BLL.Services
             var invoiceDto = SearchByNumber(number, apiKeys);
             if (invoiceDto != null)
             {
-                Invoice invoice = ConvertDtoToInvoice(invoiceDto);
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
+                Invoice invoice = mapper.Map<Invoice>(invoiceDto);
                 var results = invoicesValidator.Validate(invoice);
                 if (results.IsValid)
                 {
@@ -66,7 +67,7 @@ namespace Delivery.BLL.Services
         /// <returns>Список відправлень</returns>
         public IEnumerable<InvoiceDto> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<List<Invoice>, List<InvoiceDto>>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
             return mapper.Map<List<InvoiceDto>>(invoicesRepository.GetAll());
         }
 
@@ -88,7 +89,7 @@ namespace Delivery.BLL.Services
         /// <returns></returns>
         public IEnumerable<InvoiceDto> GetInvoicesByUserId(string userId)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<List<Invoice>, List<InvoiceDto>>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
             return mapper.Map<List<InvoiceDto>>(invoicesRepository.GetByUserId(userId));
         }
 
@@ -166,25 +167,5 @@ namespace Delivery.BLL.Services
                 throw new Exception("Відправлення не знайдено.");
             }
         }
-
-        #region Helpers
-
-        private Invoice ConvertDtoToInvoice(InvoiceDto invoiceDto)
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, Invoice>()).CreateMapper();
-            Invoice invoice = mapper.Map<Invoice>(invoiceDto);
-            foreach (KeyValuePair<int, string> keyValue in invoicesRepository.GetPostOperatorsIdNames())
-            {
-                if (invoiceDto.PostOperatorName == keyValue.Value)
-                {
-                    invoice.PostOperatorId = keyValue.Key;
-                    break;
-                }
-            }
-
-            return invoice;
-        }
-
-        #endregion
     }
 }

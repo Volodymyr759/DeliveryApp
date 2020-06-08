@@ -110,8 +110,7 @@ namespace Delivery.Web.Controllers
             {
                 var appUsersDtos = adminService.GetUsers();
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<AppUserDto, AppUserViewModel>()).CreateMapper();
-                List<AppUserViewModel> appUsersViewModels = mapper
-                    .Map<List<AppUserViewModel>>(appUsersDtos);
+                List<AppUserViewModel> appUsersViewModels = mapper.Map<List<AppUserViewModel>>(appUsersDtos);
                 return View(appUsersViewModels);
             }
             catch (Exception ex)

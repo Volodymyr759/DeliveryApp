@@ -71,7 +71,7 @@ namespace Delivery.BLL.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperator, PostOperatorDto>()).CreateMapper();
 
-            return mapper.Map<List<PostOperator>, List<PostOperatorDto>>((List<PostOperator>)postOperatorsRepository.GetAll());
+            return mapper.Map<IEnumerable<PostOperatorDto>>(postOperatorsRepository.GetAll());
         }
 
         /// <summary>
