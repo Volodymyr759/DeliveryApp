@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Delivery.Web.Models.PostOperatorViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Головна";
 }
 
-<h2>Index</h2>
+<h2>Головна</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Створити", "Create")
 </p>
 <table class="table">
     <tr>
@@ -21,7 +21,7 @@
         <td>@Html.DisplayFor(modelItem => item.PathToLogoImage)</td>
         <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
         <td>@Html.DisplayFor(modelItem => item.Notes)</td>
-        <td>@Html.ActionLink("Edit", "Edit", new { id=item.Id } )</td>
+        <td>@Html.ActionLink("Редагувати", "Edit", new { id=item.Id } )</td>
     </tr>
 }
 

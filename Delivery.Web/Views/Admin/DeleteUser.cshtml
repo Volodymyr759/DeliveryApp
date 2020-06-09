@@ -1,47 +1,23 @@
 ﻿@model Delivery.Web.Models.AppUserViewModel
 
 @{
-    ViewBag.Title = "DeleteUser";
+    ViewBag.Title = "Видалення користувача";
 }
 
-<h2>DeleteUser</h2>
+<h2>Видалення користувача</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Ви впевнені, що бажаєте видалити запис?</h3>
 <div>
-    <h4>AppUserViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Role)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Role)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.UserName)</dt>
+        <dd>@Html.DisplayFor(model => model.UserName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Password)</dt>
+        <dd>@Html.DisplayFor(model => model.Password)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Role)</dt>
+        <dd>@Html.DisplayFor(model => model.Role)</dd>
 
     </dl>
 
@@ -49,8 +25,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            @Html.ActionLink("Back to List", "Users")
+            <input type="submit" value="Видалити" class="btn btn-danger" /> |
+            @Html.ActionLink("Назад до списку", "Users")
         </div>
     }
 </div>

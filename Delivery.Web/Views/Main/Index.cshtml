@@ -1,7 +1,7 @@
 ﻿@model Delivery.Web.Models.MainIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Головна";
 }
 
 <br/>
@@ -17,11 +17,7 @@
     <h2>Поштові оператори:</h2>
     <table class="table">
         <tr>
-            <th>Назва</th>
-            <th>Пошукова сторінка</th>
-            <th>Лого</th>
-            <th>Діючий?</th>
-            <th>Примітки</th>
+            <th>Назва</th><th>Пошукова сторінка</th><th>Лого</th><th>Діючий?</th><th>Примітки</th>
         </tr>
 
         @foreach (var item in Model.PostOperators)

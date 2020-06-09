@@ -1,57 +1,27 @@
 ﻿@model IEnumerable<Delivery.Web.Models.InvoiceViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Головна";
 }
 
 <h2>Відправлення</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Створити", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PostOperatorName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Number)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SendDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CurrentLocation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActualStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Notes)
-        </th>
-        <th></th>
+        <th>Оператор</th><th>Номер</th><th>Дата</th><th>Місцезнаходження</th><th>Статус</th><th>Опис</th><th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PathToLogoImage)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SendDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentLocation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActualStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
+        <td>@Html.DisplayFor(modelItem => item.PostOperatorName)</td>
+        <td>@Html.DisplayFor(modelItem => item.Number)</td>
+        <td>@Html.DisplayFor(modelItem => item.SendDateTime)</td>
+        <td>@Html.DisplayFor(modelItem => item.CurrentLocation)</td>
+        <td>@Html.DisplayFor(modelItem => item.ActualStatus)</td>
+        <td>@Html.DisplayFor(modelItem => item.Notes)</td>
         <td>
             @Html.ActionLink("Інфо", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
             @Html.ActionLink("Оновити", "UpdateStatus", new { id = item.Id }, new { @class = "btn btn-default" }) |
