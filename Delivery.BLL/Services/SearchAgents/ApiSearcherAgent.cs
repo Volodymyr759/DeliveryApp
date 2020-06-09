@@ -94,13 +94,13 @@ namespace Delivery.BLL.Services
                 using (HttpResponseMessage response = await httpClient.PostAsJsonAsync(baseaddress, document))
                 {
                     if (!response.IsSuccessStatusCode) throw new Exception(response.ReasonPhrase);
-                    //отримали обєкт класу ApiInvoiceResultModel одразу з вкладеним обєктом ApiInvoiceModel
+                    //отримали об'єкт класу ApiInvoiceResultModel одразу з вкладеним об'єктом ApiInvoiceModel
                     result = await response.Content.ReadAsAsync<InvoiceResultModel>();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Немає доступу до інформаційної системи Нової пошти.");
             }
             return result.Data;//invoices = result.data -конвертуєм у вкладену модель
         }
