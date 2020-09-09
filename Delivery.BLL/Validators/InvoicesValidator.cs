@@ -5,7 +5,7 @@ using System;
 namespace Delivery.BLL.Validators
 {
     /// <summary>
-    /// Валідатор відправлень
+    /// Shipment validator
     /// </summary>
     public class InvoicesValidator : AbstractValidator<IInvoice>
     {

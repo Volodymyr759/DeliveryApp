@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace Delivery.Web.Controllers
 {
     /// <summary>
-    /// Контроллер управління даними поштових операторів
+    /// PostOperators controller
     /// </summary>
     [Authorize(Roles = "Admin")]
     public class PostOperatorController : Controller
@@ -17,30 +17,32 @@ namespace Delivery.Web.Controllers
         private IDeliveryMessage deliveryMessage;
 
         private readonly IPostOperatorService postOperatorService;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="deliveryMessage">Екзепляр повідолення користувача</param>
-        /// <param name="postOperatorService">Об'єкт сервісу поштових операторів</param>
-        public PostOperatorController(IDeliveryMessage deliveryMessage, IPostOperatorService postOperatorService)
+        /// <param name="deliveryMessage">Instance of the users message</param>
+        /// <param name="postOperatorService">Object of the PostOperators service</param>
+        /// <param name="mapper">Object map</param>
+        public PostOperatorController(IDeliveryMessage deliveryMessage, 
+            IPostOperatorService postOperatorService,
+            IMapper mapper)
         {
             this.deliveryMessage = deliveryMessage;
             this.postOperatorService = postOperatorService;
+            this.mapper = mapper;
         }
 
         /// <summary>
-        /// Повертає сторінку зі списком поштових операторів, реалізованих в системі Delivery
+        /// Returns page with the list of PostOperators
         /// </summary>
-        /// <returns></returns>
+        /// <returns>page with the list of PostOperators</returns>
         public ActionResult Index()
         {
             try
             {
-                var postOperatorsDtos = postOperatorService.GetAll();
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorDto, PostOperatorViewModel>()).CreateMapper();
-
-                return View("Index", mapper.Map<List<PostOperatorViewModel>>(postOperatorsDtos));
+                return View("Index", mapper.Map<List<PostOperatorViewModel>>(postOperatorService.GetAll()));
             }
             catch (Exception ex)
             {
@@ -51,9 +53,9 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Get Повертає сторінку для створення нового поштового оператора
+        /// Returns page for creating the new PostOperator
         /// </summary>
-        /// <returns>Сторінка створення поштового оператора</returns>
+        /// <returns>Page for creating the new PostOperator</returns>
         [HttpGet]
         public ActionResult Create()
         {
@@ -70,16 +72,15 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Створює нового поштового оператора (при програмній реалізації нового поштового оператора)
+        /// Creates the new PostOperator
         /// </summary>
-        /// <param name="postOperator">ViewModel поштового оператора</param>
-        /// <returns></returns>
+        /// <param name="postOperator">ViewModel of the PostOperator</param>
+        /// <returns>View for creating of the PostOperator</returns>
         [HttpPost]
         public ActionResult Create(PostOperatorViewModel postOperator)
         {
             try
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorViewModel, PostOperatorDto>()).CreateMapper();
                 postOperatorService.Add(mapper.Map<PostOperatorDto>(postOperator));
 
                 return View("Create");
@@ -93,11 +94,10 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Повертає сторінку редагування даних поштового оператора. Адміністратор може редагувати 
-        /// тільки статус активності оператора (відключає при збоях в доступі до інформаційної системи оператора)
+        /// Returns page for edit PostOperator. Admin can edit only status.
         /// </summary>
-        /// <param name="id">Ідентифікатор поштового оператора</param>
-        /// <returns></returns>
+        /// <param name="id">PostOperator's Id</param>
+        /// <returns>View Edit</returns>
         [HttpGet]
         public ActionResult Edit(int? id)
         {
@@ -106,7 +106,6 @@ namespace Delivery.Web.Controllers
                 if (id == null) throw new Exception("Не обрано поштового оператора для оновлення активності.");
                 PostOperatorDto postOperatorDto = postOperatorService.GetById((int)id);
                 if (postOperatorDto == null) throw new Exception("Поштового оператора не знайдено.");
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorDto, PostOperatorViewModel>()).CreateMapper();
 
                 return View("Edit", mapper.Map<PostOperatorViewModel>(postOperatorDto));
             }
@@ -119,17 +118,16 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Post Отримує дані зі сторінки редагування поштового оператора і зберігає в БД
+        /// Saves edited data to database
         /// </summary>
-        /// <param name="postOperator">ViewModel поштового оператора</param>
-        /// <returns></returns>
+        /// <param name="postOperator">ViewModel of the PostOperator</param>
+        /// <returns>redirect to Index-page</returns>
         [HttpPost]
         public ActionResult Edit(PostOperatorViewModel postOperator)
         {
             try
             {
                 if (postOperator == null) throw new Exception("Поштового оператора не знайдено.");
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorViewModel, PostOperatorDto>()).CreateMapper();
                 postOperatorService.UpdatePostOperator(mapper.Map<PostOperatorDto>(postOperator));
 
                 return RedirectToAction("Index");

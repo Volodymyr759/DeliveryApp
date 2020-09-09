@@ -31,7 +31,6 @@ namespace Delivery.BLL.Validators
 
         private bool BeValidName(string arg)
         {
-            // тільки зі списку імен реалізованих в системі пошукових агентів
             return arg.Contains("Нова Пошта")||arg.Contains("Укрпошта");
         }
     }

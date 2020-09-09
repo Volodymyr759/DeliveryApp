@@ -1,39 +1,37 @@
 ﻿namespace Delivery.DAL.Models
 {
     /// <summary>
-    /// Поштовий оператор
+    /// Postal operator
     /// </summary>
     public class PostOperator : IPostOperator
     {
         /// <summary>
-        /// Ідентифікатор поштового оператору в базі даних сервісу Delivery
+        /// Postal operator Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Назва поштового оператора, додається лише після реалізації відповідного пошукового агента
-        /// з одночасним додаванням у базу даних
+        /// Postal operator name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Пошукова сторінка для відстеження відправлень за номером в інформаційній системі поштового оператора.
+        /// Search page for tracking shipments by number in the information system of the postal operator.
         /// </summary>
         public string LinkToSearchPage { get; set; }
 
         /// <summary>
-        /// Шлях до розташування зображення лого поштового оператора на хост-сервері сервісу Delivery
+        /// The path to the location of the image of the postal operator's logo on the host server of the Delivery service.
         /// </summary>
         public string PathToLogoImage { get; set; }
 
         /// <summary>
-        /// Показує, чи оператор доступний для використання. Адміністратор може деактивовувати оператора при змінах умов доступу,
-        /// які ще не реалізовані в системі Delivery.
+        /// Indicates whether the operator is available for use. The administrator can deactivate the operator in case of changes in access conditions that have not yet been implemented in the Delivery system.
         /// </summary>
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Примітки
+        /// Notes
         /// </summary>
         public string Notes { get; set; }
     }

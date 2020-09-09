@@ -1,23 +1,20 @@
 ﻿using Delivery.BLL.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel головної сторінки
+    /// Main page ViewModel
     /// </summary>
     public class MainIndexViewModel
     {
         /// <summary>
-        /// Номер відправлення, який можуть вводити для пошуку незареєстровані користувачі
+        /// The number of the shipment, that unregistered users can enter to search
         /// </summary>
         public string Number { get; set; }
 
         /// <summary>
-        /// Список реалізованих в системі Delivery поштових операторів, в інформаційних системах яких здійснюється пошук
+        /// List of postal operators implemented in the Delivery system, in the information systems of which the search is performed
         /// </summary>
         public IEnumerable<PostOperatorDto> PostOperators { get; set; }
     }

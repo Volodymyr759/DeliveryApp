@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 namespace Delivery.DAL.Repositories
 {
     /// <summary>
-    /// Репозиторій поштових операторів
+    /// Postal operators repo
     /// </summary>
     public class PostOperatorsRepository : IPostOperatorsRepository
     {
@@ -16,16 +16,16 @@ namespace Delivery.DAL.Repositories
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="connectionString">Строка підключення</param>
+        /// <param name="connectionString">Connection string</param>
         public PostOperatorsRepository(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
         /// <summary>
-        /// Створює нового поштового оператора (при відповідній програмній реалізації)
+        /// Creates the new postal operator
         /// </summary>
-        /// <param name="postOperator">Екземпляр поштового оператора</param>
+        /// <param name="postOperator">Instance of the postal operator</param>
         public void Create(IPostOperator postOperator)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -64,9 +64,9 @@ namespace Delivery.DAL.Repositories
         }
 
         /// <summary>
-        /// Повертає реалізовані на сервісі Delivery поштові оператори
+        /// Returns the list of postal operators
         /// </summary>
-        /// <returns>Список поштових операторів</returns>
+        /// <returns>The list of postal operators</returns>
         public IEnumerable<IPostOperator> GetAll()
         {
             List<PostOperator> listOfPostOperators = new List<PostOperator>();
@@ -115,10 +115,10 @@ namespace Delivery.DAL.Repositories
         }
 
         /// <summary>
-        /// Повертає екземпляр поштового оператора по ідентифікатору
+        /// Returns postal operator by Id
         /// </summary>
-        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
-        /// <returns>Eкземпляр поштового оператора</returns>
+        /// <param name="postOperatorId">PostOperator Id</param>
+        /// <returns>Instance of the postal operator</returns>
         public IPostOperator GetById(int postOperatorId)
         {
             IPostOperator postOperator = new PostOperator();
@@ -166,9 +166,9 @@ namespace Delivery.DAL.Repositories
         }
 
         /// <summary>
-        /// Оновлює запис поштового оператора
+        /// Updates postal operator
         /// </summary>
-        /// <param name="postOperator">Екземпляр поштового оператора</param>
+        /// <param name="postOperator">Instance of the postal operator</param>
         public void Update(IPostOperator postOperator)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

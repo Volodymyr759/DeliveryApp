@@ -1,80 +1,77 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Delivery.BLL.Services
+﻿namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Клас відправлення, пристосований до json-формату відповіді API-сервісу Нової Пошти
+    /// Shipment class adapted to the json response format of the Nova Poshta API service
     /// </summary>
     public class ApiInvoicesModel
     {
         /// <summary>
-        /// Номер відправлення
+        /// Shipment number
         /// </summary>
         public string IntDocNumber { get; set; }
 
         /// <summary>
-        /// Відділення одержувача
+        /// Recipient's office
         /// </summary>
         public string RecipientAddressDescription { get; set; }
 
         /// <summary>
-        /// Місто одержувача
+        /// Recipient's city
         /// </summary>
         public string CityRecipientDescription { get; set; }
 
         /// <summary>
-        /// Дата створення відправлення
+        /// Date the shipment was created
         /// </summary>
         public string Datetime { get; set; }
 
         /// <summary>
-        /// Оголошена вартість відправлення
+        /// Declared shipping cost
         /// </summary>
         public string CostOnSite { get; set; }
 
         /// <summary>
-        /// Тип доставки
+        /// Delivery type
         /// </summary>
         public string ServiceType { get; set; }
 
         /// <summary>
-        /// Вага
+        /// Weight
         /// </summary>
         public string Weight { get; set; }
 
         /// <summary>
-        /// Опис
+        /// Description
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Вид оплати: готівка, б/г
+        /// Type of payment: cash, non-cash
         /// </summary>
         public string PaymentMethod { get; set; }
 
         /// <summary>
-        /// Платник: відправник або одержувач
+        /// Payer: sender or recipient
         /// </summary>
         public string PayerType { get; set; }
 
         /// <summary>
-        /// Статус, наприклад: Замовлення в обробці
+        /// Status, for example: Order in processing
         /// </summary>
         public string StateName { get; set; }
 
         /// <summary>
-        /// Телефон відправника
+        /// Sender's phone
         /// </summary>
         public string SendersPhone { get; set; }
 
         /// <summary>
-        /// Відділення відправника
+        /// Sender's office
         /// </summary>
         public string SenderAddressDescription { get; set; }
 
         /// <summary>
-        /// Місто відправника
+        /// Sender's city
         /// </summary>
         public string CitySenderDescription { get; set; }
         

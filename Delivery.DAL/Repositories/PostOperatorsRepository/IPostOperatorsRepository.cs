@@ -4,33 +4,33 @@ using Delivery.DAL.Models;
 namespace Delivery.DAL.Repositories
 {
     /// <summary>
-    /// Репозиторій поштових операторів
+    /// Postal operators repo interface
     /// </summary>
     public interface IPostOperatorsRepository
     {
         /// <summary>
-        /// Створює нового поштового оператора (при відповідній програмній реалізації)
+        /// Creates the new postal operator
         /// </summary>
-        /// <param name="postOperator">Екземпляр поштового оператора</param>
+        /// <param name="postOperator">Instance of the postal operator</param>
         void Create(IPostOperator postOperator);
 
         /// <summary>
-        /// Повертає реалізовані на сервісі Delivery поштові оператори
+        /// Returns the list of postal operators
         /// </summary>
-        /// <returns>Список поштових операторів</returns>
+        /// <returns>The list of postal operators</returns>
         IEnumerable<IPostOperator> GetAll();
 
         /// <summary>
-        /// Повертає екземпляр поштового оператора по ідентифікатору
+        /// Returns postal operator by Id
         /// </summary>
-        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
-        /// <returns>Eкземпляр поштового оператора</returns>
+        /// <param name="postOperatorId">PostOperator Id</param>
+        /// <returns>Instance of the postal operator</returns>
         IPostOperator GetById(int postOperatorId);
 
         /// <summary>
-        /// Оновлює запис поштового оператора
+        /// Updates postal operator
         /// </summary>
-        /// <param name="postOperator">Екземпляр поштового оператора</param>
+        /// <param name="postOperator">Instance of the postal operator</param>
         void Update(IPostOperator postOperator);
     }
 }

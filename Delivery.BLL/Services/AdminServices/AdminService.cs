@@ -12,12 +12,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Сервіс адміністратора
+    /// Admin service
     /// </summary>
     public class AdminService : IAdminService
     {
-        private readonly string connectionString;
-
         private UserManager<IdentityUser> userManager;
 
         private ApplicationDbContext db;
@@ -28,16 +26,15 @@ namespace Delivery.BLL.Services
         /// <param name="connectionString"></param>
         public AdminService(string connectionString)
         {
-            this.connectionString = connectionString;
             db = new ApplicationDbContext(connectionString);
             userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(db));
         }
 
         /// <summary>
-        /// Створення нового користувача
+        /// Creating a new user
         /// </summary>
-        /// <param name="userDto">Модель передачі даних зі сторінки реєстрації</param>
-        /// <returns>Повідомлення про результат виконання операції створення користувача</returns>
+        /// <param name="userDto">Data transfer object from the registration page</param>
+        /// <returns>Notification of the result of creating a user</returns>
         public async Task AddUser(AppUserDto userDto)
         {
             IdentityUser user = await userManager.FindByEmailAsync(userDto.Email);
@@ -55,9 +52,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Аутентифікація користувача
+        /// User authentication
         /// </summary>
-        /// <param name="userDto">Модель передачі даних зі сторінки логування</param>
+        /// <param name="userDto">Data transfer object from the login page</param>
         /// <returns>Об'єкт ClaimsIdentity</returns>
         public async Task<ClaimsIdentity> Authenticate(AppUserDto userDto)
         {
@@ -71,10 +68,10 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Повертає користувача по ідентифікатору
+        /// Returns the user by ID
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
-        /// <returns>Dto екземпляр користувача</returns>
+        /// <param name="userId">User Id</param>
+        /// <returns>Dto instance of the user</returns>
         public AppUserDto GetUserById(string userId)
         {
             var mapper = new MapperConfiguration(cgf => cgf.CreateMap<IdentityUser, AppUserDto>()).CreateMapper();
@@ -83,9 +80,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Повертає список усіх користувачів
+        /// Returns a list of all users
         /// </summary>
-        /// <returns>Список користувачів</returns>
+        /// <returns>List of users</returns>
         public IEnumerable<AppUserDto> GetUsers()
         {
             var mapper = new MapperConfiguration(cgf => cgf.CreateMap<IdentityUser, AppUserDto>()).CreateMapper();
@@ -94,9 +91,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Видаляє користувача з каскадним видаленням пов'язаних даних
+        /// Deletes the user by cascading the associated data
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
+        /// <param name="userId">User Id</param>
         /// <returns>Task</returns>
         public async Task RemoveUser(string userId)
         {
@@ -104,7 +101,7 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Збереження змін БД
+        /// Saving database changes
         /// </summary>
         /// <returns>Task</returns>
         public async Task SaveAsync()

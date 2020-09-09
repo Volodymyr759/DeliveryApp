@@ -1,22 +1,22 @@
 ﻿namespace Delivery.BLL.DTO
 {
     /// <summary>
-    /// Dto модель ролі користувача
+    /// User role Dto model
     /// </summary>
     public class AppRoleDto
     {
         /// <summary>
-        /// Ідентифікатор користувача, створений при реєстрації ASP.NET Identity
+        /// User Id
         /// </summary>
         public string UserId { get; set; }
 
         /// <summary>
-        /// Ідентифікатор ролі користувача ASP.NET Identity
+        /// Role Id
         /// </summary>
         public string RoleId { get; set; }
 
         /// <summary>
-        /// Назва ролі користувача
+        /// Role name
         /// </summary>
         public string RoleName { get; set; }
     }

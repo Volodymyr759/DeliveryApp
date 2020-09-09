@@ -3,17 +3,17 @@
 namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel поштового оператора
+    /// PostOperator ViewModel
     /// </summary>
     public class PostOperatorViewModel
     {
         /// <summary>
-        /// Ідентифікатор поштового оператору в базі даних сервісу Delivery
+        /// PostOperator Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Назва поштового оператора
+        /// PostOperator name
         /// </summary>
         [Required]
         [Display(Name ="Назва поштового оператора")]
@@ -21,7 +21,7 @@ namespace Delivery.Web.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Пошукова сторінка для відстеження відправлень за номером в інформаційній системі поштового оператора.
+        /// Search page for tracking shipments by number in the information system of the postal operator.
         /// </summary>
         [Required]
         [Display(Name = "Посилання на сторінку відстеження відправлень")]
@@ -29,7 +29,7 @@ namespace Delivery.Web.Models
         public string LinkToSearchPage { get; set; }
 
         /// <summary>
-        /// Шлях до розташування зображення лого поштового оператора на хост-сервері сервісу Delivery
+        /// The path to the location of the image of the postal operator's logo on the host server of the Delivery service
         /// </summary>
         [Required]
         [Display(Name = "Шлях до розташування зображення лого")]
@@ -37,15 +37,14 @@ namespace Delivery.Web.Models
         public string PathToLogoImage { get; set; }
 
         /// <summary>
-        /// Показує, чи оператор доступний для використання. Адміністратор може деактивовувати оператора при змінах умов доступу,
-        /// які ще не реалізовані в системі Delivery.
+        /// Indicates whether the operator is available for use. The administrator can deactivate the operator in case of changes in access conditions that have not yet been implemented in the Delivery system.
         /// </summary>
         [Required]
         [Display(Name = "Оператор активний?")]
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Примітки
+        /// Notes
         /// </summary>
         [Display(Name = "Опис")]
         [StringLength(300, MinimumLength = 0, ErrorMessage = "Необов'язкове поле опису, від 0 до 300 символів.")]

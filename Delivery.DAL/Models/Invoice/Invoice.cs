@@ -3,67 +3,67 @@
 namespace Delivery.DAL.Models
 {
     /// <summary>
-    /// Відправлення, відстежуване користувачем. Передбачається, що існує в інформаційній системі поштового оператора
+    /// User-tracked shipment. It is assumed that it exists in the information system of the postal operator
     /// </summary>
     public class Invoice : IInvoice
     {
         /// <summary>
-        /// Ідентифікатор відправлення в базі даних сервісу Delivery
+        /// Shipment Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Ідентифікатор користувача в базі даних сервісу Delivery
+        /// User Id.
         /// </summary>
         public string AccountUserId { get; set; }
 
         /// <summary>
-        /// Ідентифікатор поштового оператора
+        /// Postal operator Id.
         /// </summary>
         public int PostOperatorId { get; set; }
 
         /// <summary>
-        /// Номер відправлення в інформаційній системі одного з поштових операторів
+        /// Shipment number in the information system of one of the postal operators.
         /// </summary>
         public string Number { get; set; }
 
         /// <summary>
-        /// Дата відправлення за даними інформаційної системи поштового оператора
+        /// Date of sending according to the information system of the postal operator.
         /// </summary>
         public DateTime SendDateTime { get; set; }
 
         /// <summary>
-        /// Відправник
+        /// Sender name
         /// </summary>
         public string Sender { get; set; }
 
         /// <summary>
-        /// Адреса відправника
+        /// Sender address
         /// </summary>
         public string SenderAddress { get; set; }
 
         /// <summary>
-        /// Одержувач
+        /// Recipient name
         /// </summary>
         public string Recipient { get; set; }
 
         /// <summary>
-        /// Адреса одержувача
+        /// Recipient address
         /// </summary>
         public string RecipientAddress { get; set; }
 
         /// <summary>
-        /// Адреса поточного місцезнаходження відправлення
+        /// The address of the current location of shipment
         /// </summary>
         public string CurrentLocation { get; set; }
 
         /// <summary>
-        /// Поточний статус відправлення
+        /// Shipment current status
         /// </summary>
         public string ActualStatus { get; set; }
 
         /// <summary>
-        /// Примітки
+        /// Notes
         /// </summary>
         public string Notes { get; set; }
     }

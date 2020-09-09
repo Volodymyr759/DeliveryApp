@@ -6,46 +6,46 @@ using System.Threading.Tasks;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Сервіс адміністратора
+    /// Admin service interface
     /// </summary>
     public interface IAdminService
     {
         /// <summary>
-        /// Створення нового користувача
+        /// Creating a new user
         /// </summary>
-        /// <param name="userDto">Модель передачі даних зі сторінки реєстрації</param>
-        /// <returns>Повідомлення про результат виконання операції створення користувача</returns>
+        /// <param name="userDto">Data transfer object from the registration page</param>
+        /// <returns>Notification of the result of creating a user</returns>
         Task AddUser(AppUserDto userDto);
 
         /// <summary>
-        /// Аутентифікація користувача
+        /// User authentication
         /// </summary>
-        /// <param name="userDto">Модель передачі даних зі сторінки логування</param>
+        /// <param name="userDto">Data transfer object from the login page</param>
         /// <returns>Об'єкт ClaimsIdentity</returns>
         Task<ClaimsIdentity> Authenticate(AppUserDto userDto);
 
         /// <summary>
-        /// Повертає список усіх користувачів
+        /// Returns a list of all users
         /// </summary>
-        /// <returns>Список користувачів</returns>
+        /// <returns>List of users</returns>
         IEnumerable<AppUserDto> GetUsers();
 
         /// <summary>
-        /// Повертає користувача по ідентифікатору
+        /// Returns the user by ID
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
-        /// <returns>Dto екземпляр користувача</returns>
+        /// <param name="userId">User Id</param>
+        /// <returns>Dto instance of the user</returns>
         AppUserDto GetUserById(string userId);
 
         /// <summary>
-        /// Видаляє користувача з каскадним видаленням пов'язаних даних
+        /// Deletes the user by cascading the associated data
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
+        /// <param name="userId">User Id</param>
         /// <returns>Task</returns>
         Task RemoveUser(string userId);
 
         /// <summary>
-        /// Збереження змін БД
+        /// Saving database changes
         /// </summary>
         /// <returns>Task</returns>
         Task SaveAsync();

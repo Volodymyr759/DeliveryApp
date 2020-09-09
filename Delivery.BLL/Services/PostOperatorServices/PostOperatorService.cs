@@ -9,7 +9,7 @@ using Delivery.DAL.Repositories;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Сервіс управління поштовими операторами
+    /// Postal operators management service
     /// </summary>
     public class PostOperatorService : IPostOperatorService
     {
@@ -22,8 +22,8 @@ namespace Delivery.BLL.Services
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="connectionString">Строка підключення</param>
-        /// <param name="postOperatorsRepository">Об'єкт репозиторію поштових операторів</param>
+        /// <param name="connectionString">Connection string</param>
+        /// <param name="postOperatorsRepository">Object of the repository of postal operators</param>
         public PostOperatorService(string connectionString, IPostOperatorsRepository postOperatorsRepository)
         {
             this.connectionString = connectionString;
@@ -31,9 +31,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Створення адміністратором нового поштового оператора - додається після програмної реалізації кожного нового оператора
+        /// Creation of a new postal operator by the administrator - added after the software implementation of each new operator
         /// </summary>
-        /// <param name="postOperatorDto">Модель Dto поштового оператора</param>
+        /// <param name="postOperatorDto">The Dto model of the postal operator</param>
         public void Add(PostOperatorDto postOperatorDto)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorDto, PostOperator>()).CreateMapper();
@@ -52,10 +52,10 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Повертає екземпляр поштового оператора по ідентифікатору
+        /// Returns an instance of the postal operator by Id
         /// </summary>
-        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
-        /// <returns>Екземпляр поштового оператора</returns>
+        /// <param name="postOperatorId">Postal operator Id</param>
+        /// <returns>Instance of the postal operator</returns>
         public PostOperatorDto GetById(int postOperatorId)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperator, PostOperatorDto>()).CreateMapper();
@@ -64,9 +64,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Повертає список усіх реалізованих в системі Delivery поштових операторів
+        /// Returns a list of all postal operators implemented in the Delivery system
         /// </summary>
-        /// <returns>Список реалізованих операторів</returns>
+        /// <returns>List of postal operators</returns>
         public IEnumerable<PostOperatorDto> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperator, PostOperatorDto>()).CreateMapper();
@@ -75,9 +75,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Оновлює дані поштового оператора
+        /// Updates the data of the postal operator
         /// </summary>
-        /// <param name="postOperatorDto">Екземпляр Dto поштового оператора</param>
+        /// <param name="postOperatorDto">Instance Dto the postal operator</param>
         public void UpdatePostOperator(PostOperatorDto postOperatorDto)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PostOperatorDto, PostOperator>()).CreateMapper();

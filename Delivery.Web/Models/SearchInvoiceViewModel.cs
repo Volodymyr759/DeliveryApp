@@ -3,12 +3,12 @@
 namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel пошуку і створення відправлення по номеру інформаційної системи поштового оператора
+    /// View model for search and create a shipment by the number of the information system of the postal operator
     /// </summary>
     public class SearchInvoiceViewModel
     {
         /// <summary>
-        /// Номер відправлення в інформаційній системі поштового оператора
+        /// Sipment number in the information system of the postal operator
         /// </summary>
         [Required]
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Введіть номер від 6 до 30 символів.")]

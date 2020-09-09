@@ -1,18 +1,19 @@
 ﻿namespace Delivery.Web.Models
 {
     /// <summary>
-    /// Клас повідомлень користувача у системі Delivery
+    /// User message class in the Delivery system
     /// </summary>
     public class DeliveryMessage : IDeliveryMessage
     {
-        /// <summary>
-        /// Заголовок повідомлення
-        /// </summary>
-        public string Title { get; set; }
 
         /// <summary>
-        /// Тіло повідомлення
+        /// Message body
         /// </summary>
         public string Body { get; set; }
+
+        /// <summary>
+        /// Message title
+        /// </summary>
+        public string Title { get; set; }
     }
 }

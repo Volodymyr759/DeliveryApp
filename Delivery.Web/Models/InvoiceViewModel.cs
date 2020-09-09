@@ -3,42 +3,42 @@
 namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel модель відправлення користувача
+    /// Shipment ViewModel
     /// </summary>
     public class InvoiceViewModel
     {
         /// <summary>
-        /// Ідентифікатор відправлення
+        /// Shipment Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Номер відправлення в інформаційній системі поштового оператора
+        /// Shipment number
         /// </summary>
         public string Number { get; set; }
 
         /// <summary>
-        /// Назва поштового оператора
+        /// Postal operator name
         /// </summary>
         public string PostOperatorName { get; set; }
 
         /// <summary>
-        /// Дата відправлення за даними інформаційної системи поштового оператора
+        /// Date of sending according to the information system of the postal operator
         /// </summary>
         public DateTime SendDateTime { get; set; }
 
         /// <summary>
-        /// Адреса поточного місцезнаходження відправлення
+        /// The address of the current location of shipment
         /// </summary>
         public string CurrentLocation { get; set; }
 
         /// <summary>
-        /// Поточний статус відправлення
+        /// Current shipment status
         /// </summary>
         public string ActualStatus { get; set; }
 
         /// <summary>
-        /// Примітки
+        /// Notes
         /// </summary>
         public string Notes { get; set; }
     }

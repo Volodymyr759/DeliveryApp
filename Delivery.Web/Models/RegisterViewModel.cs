@@ -3,12 +3,12 @@
 namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel реєстрації користувача
+    /// ViewModel user registration
     /// </summary>
     public class RegisterViewModel
     {
         /// <summary>
-        /// Email користувача
+        /// User email
         /// </summary>
         [Required]
         [EmailAddress]
@@ -16,7 +16,7 @@ namespace Delivery.Web.Models
         public string Email { get; set; }
 
         /// <summary>
-        /// Пароль користувача
+        /// User password
         /// </summary>
         [Required]
         [StringLength(100, ErrorMessage = "Пароль повинен містити не менше 6 символів.", MinimumLength = 6)]
@@ -25,7 +25,7 @@ namespace Delivery.Web.Models
         public string Password { get; set; }
 
         /// <summary>
-        /// Підтвердження паролю користувача
+        /// Confirm user password
         /// </summary>
         [DataType(DataType.Password)]
         [Display(Name = "Підтвердіть пароль")]

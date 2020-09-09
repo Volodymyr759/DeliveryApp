@@ -1,17 +1,17 @@
 ﻿namespace Delivery.BLL.DTO
 {
     /// <summary>
-    /// Клас повідомлень користувача у системі Delivery
+    /// Class of user messages in the Delivery system
     /// </summary>
     public class DeliveryMessageDto
     {
         /// <summary>
-        /// Заголовок повідомлення
+        /// Message title
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Тіло повідомлення
+        /// Message body
         /// </summary>
         public string Body { get; set; }
     }

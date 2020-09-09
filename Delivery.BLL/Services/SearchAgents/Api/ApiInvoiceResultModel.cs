@@ -1,16 +1,14 @@
-﻿using Delivery.BLL.Services;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Клас, пристосований до формату відповіді API-сервісу Нової Пошти
+    /// A class adapted to the response format of the Nova Poshta API service
     /// </summary>
     public class InvoiceResultModel
     {
         /// <summary>
-        /// Список накладних, який повертається у відповіді API-сервісу Нової Пошти
+        /// List of invoices returned in response to the Nova Poshta API service
         /// </summary>
         public List<ApiInvoicesModel> Data { get; set; }
     }

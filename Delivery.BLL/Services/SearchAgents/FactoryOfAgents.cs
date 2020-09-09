@@ -3,15 +3,15 @@
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Клас для створення пошукових агентів фабричним методом
+    /// A class for creating search agents by the factory method
     /// </summary>
     public class FactoryOfAgents
     {
         /// <summary>
-        /// Повертає список реалізованих в системі Delivery пошукових агентів
+        /// Returns a list of search agents implemented in the Delivery system
         /// </summary>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
-        /// <returns>Список пошукових агентів</returns>
+        /// <param name="apiKeys">Access keys to implemented Api-services</param>
+        /// <returns>List of search agents</returns>
         public static IEnumerable<ISearchAgent> GetAllAgents(Dictionary<string, string> apiKeys)
         {
             var listOfAgents = new List<ISearchAgent>

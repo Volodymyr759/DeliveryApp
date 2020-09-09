@@ -10,7 +10,7 @@ using Delivery.DAL.Repositories;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Сервіс управління посилками/відправленнями
+    /// Shipment Management Service
     /// </summary>
     public class InvoicesService : IInvoicesService
     {
@@ -25,9 +25,9 @@ namespace Delivery.BLL.Services
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="connectionString">Строка підключення</param>
-        /// <param name="invoicesRepository">Об'єкт репозиторію відправлень</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        /// <param name="connectionString">Connection string</param>
+        /// <param name="invoicesRepository">Shipment repository object</param>
+        /// <param name="apiKeys">Access keys to implemented Api-services</param>
         public InvoicesService(string connectionString, IInvoicesRepository invoicesRepository, Dictionary<string, string> apiKeys)
         {
             this.connectionString = connectionString;
@@ -36,11 +36,10 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Створення нового відправлення користувача
+        /// Create a new shipment
         /// </summary>
-        /// <param name="userId">Ідентифікатр користувача</param>
-        /// <param name="number">Номер відправлення</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        /// <param name="userId">User Id</param>
+        /// <param name="number">Shipment number</param>
         public async Task Add(string userId, string number)
         {
             var invoiceDto = await SearchByNumber(number);
@@ -74,14 +73,14 @@ namespace Delivery.BLL.Services
             }
             else
             {
-                throw new Exception("Відправлення не зайдено.");
+                throw new Exception("Відправлення не знайдено.");
             }
         }
 
         /// <summary>
-        /// Повертає усі створені користувачами відправлення в сервісі Delivery
+        /// Returns all user-generated shipments in the Delivery service
         /// </summary>
-        /// <returns>Список відправлень</returns>
+        /// <returns>List of shipments</returns>
         public IEnumerable<InvoiceDto> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
@@ -98,10 +97,10 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Повертає відправлення по ідентифікатору
+        /// Returns the shipment by Id
         /// </summary>
-        /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        /// <returns>Модель Dto відправлення</returns>
+        /// <param name="invoiceId">Shipment Id</param>
+        /// <returns>Shipment Dto model</returns>
         public InvoiceDto GetById(int invoiceId)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Invoice, InvoiceDto>()).CreateMapper();
@@ -114,9 +113,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Повертає список відправлень обраного користувача
+        /// Returns the shipment list of the selected user
         /// </summary>
-        /// <param name="userId">Ідентифікатр користувача</param>
+        /// <param name="userId">User Id</param>
         /// <returns></returns>
         public IEnumerable<InvoiceDto> GetInvoicesByUserId(string userId)
         {
@@ -134,22 +133,22 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Видалення відправлення
+        /// Deleting a shipment
         /// </summary>
-        /// <param name="invoiceId">Ідентифікатор відправлення</param>
+        /// <param name="invoiceId">Shipment Id</param>
         public void Remove(int invoiceId) => invoicesRepository.Delete(invoiceId);
 
         /// <summary>
-        /// Видалення відправлень користувача
+        /// Delete user shipments
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
+        /// <param name="userId">User Id</param>
         public void RemoveByUser(string userId) => invoicesRepository.DeleteByUserId(userId);
 
         /// <summary>
-        /// Пошук відправлення по номеру
+        /// Search for a shipment by number
         /// </summary>
-        /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        /// <param name="number">Shipment number in the information system of the postal operator</param>
+        /// <returns>Shipment Dto model</returns>
         public async Task<InvoiceDto> SearchByNumber(string number)
         {
             try
@@ -170,10 +169,9 @@ namespace Delivery.BLL.Services
         }
 
         /// <summary>
-        /// Оновлює статус поштового відправлення
+        /// Updates the status of the shipment
         /// </summary>
-        /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        /// <param name="apiKeys">Ключі доступу до реалізованих Api-сервісів</param>
+        /// <param name="invoiceId">Shipment Id</param>
         public async Task UpdateStatusAsync(int invoiceId)
         {
             var invoice = invoicesRepository.GetById(invoiceId);

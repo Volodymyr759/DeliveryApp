@@ -1,32 +1,32 @@
 ﻿namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel користувача
+    /// User ViewModel
     /// </summary>
     public class AppUserViewModel
     {
         /// <summary>
-        /// Ідентифікатор користувача
+        /// User Id
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Ім'я користувача
+        /// User name
         /// </summary>
         public string UserName { get; set; }
 
         /// <summary>
-        /// Email користувача
+        /// User email
         /// </summary>
         public string Email { get; set; }
 
         /// <summary>
-        /// Пароль користувача
+        /// User password
         /// </summary>
         public string Password { get; set; }
 
         /// <summary>
-        /// Роль користувача
+        /// User role
         /// </summary>
         public string Role { get; set; }
     }

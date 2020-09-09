@@ -3,12 +3,12 @@
 namespace Delivery.Web.Models
 {
     /// <summary>
-    /// ViewModel логування користувача
+    /// Login ViewModel
     /// </summary>
     public class LoginViewModel
     {
         /// <summary>
-        /// Email користувача
+        /// User email
         /// </summary>
         [Required]
         [Display(Name = "Email")]
@@ -16,7 +16,7 @@ namespace Delivery.Web.Models
         public string Email { get; set; }
 
         /// <summary>
-        /// Пароль користувача
+        /// User password
         /// </summary>
         [Required]
         [DataType(DataType.Password)]
@@ -24,7 +24,7 @@ namespace Delivery.Web.Models
         public string Password { get; set; }
 
         /// <summary>
-        /// Показує чи зберігати логально дані логування
+        /// Shows whether to save local log data
         /// </summary>
         [Display(Name = "Запам'ятати мене?")]
         public bool RememberMe { get; set; }

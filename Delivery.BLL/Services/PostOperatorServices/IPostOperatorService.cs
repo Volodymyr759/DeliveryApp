@@ -4,33 +4,33 @@ using System.Collections.Generic;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Сервіс управління поштовими операторами
+    /// Postal operators management service interface
     /// </summary>
     public interface IPostOperatorService
     {
         /// <summary>
-        /// Створення адміністратором нового поштового оператора - додається після програмної реалізації кожного нового оператора
+        /// Creation of a new postal operator by the administrator - added after the software implementation of each new operatorного нового оператора
         /// </summary>
-        /// <param name="postOperatorDto">Модель Dto поштового оператора</param>
+        /// <param name="postOperatorDto">The Dto model of the postal operator</param>
         void Add(PostOperatorDto postOperatorDto);
 
         /// <summary>
-        /// Повертає екземпляр поштового оператора по ідентифікатору
+        /// Returns an instance of the postal operator by Id
         /// </summary>
-        /// <param name="postOperatorId">Ідентифікатор поштового оператора</param>
-        /// <returns>Екземпляр поштового оператора</returns>
+        /// <param name="postOperatorId">Postal operator Id</param>
+        /// <returns>Instance of the postal operator</returns>
         PostOperatorDto GetById(int postOperatorId);
 
         /// <summary>
-        /// Повертає список усіх реалізованих в системі Delivery поштових операторів
+        /// Returns a list of all postal operators implemented in the Delivery system
         /// </summary>
-        /// <returns>Список реалізованих операторів</returns>
+        /// <returns>List of postal operators</returns>
         IEnumerable<PostOperatorDto> GetAll();
 
         /// <summary>
-        /// Оновлює дані поштового оператора
+        /// Updates the data of the postal operators
         /// </summary>
-        /// <param name="postOperatorDto">Екземпляр Dto поштового оператора</param>
+        /// <param name="postOperatorDto">Instance Dto the postal operator</param>
         void UpdatePostOperator(PostOperatorDto postOperatorDto);
     }
 }

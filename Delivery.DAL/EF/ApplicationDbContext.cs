@@ -3,7 +3,7 @@
 namespace Delivery.DAL.EF
 {
     /// <summary>
-    /// EntityFramework DbContext для використання AspNet.Identity
+    /// DbContext
     /// </summary>
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {

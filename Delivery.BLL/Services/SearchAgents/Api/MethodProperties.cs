@@ -1,22 +1,22 @@
 ﻿namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Клас налаштувань запиту в API-сервісі Нової Пошти
+    /// Request settings class in the New Mail API service
     /// </summary>
     public class ApiMethodProperties
     {
         /// <summary>
-        /// Початкова дата запитуваного періоду
+        /// Start date of the requested period
         /// </summary>
         public string DateTimeFrom { get; set; }
 
         /// <summary>
-        /// Кінцева дата запитуваного періоду
+        /// End date of the requested period
         /// </summary>
         public string DateTimeTo { get; set; }
 
         /// <summary>
-        /// Параметр, який вказує необхідність отримання повного списку накладних
+        /// A parameter that indicates the need to obtain a complete list of invoices
         /// </summary>
         public string GetFullList { get; set; } 
     }

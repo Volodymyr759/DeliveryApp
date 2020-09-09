@@ -13,7 +13,7 @@ using AutoMapper;
 namespace Delivery.Web.Controllers
 {
     /// <summary>
-    /// Контроллер адміністратора
+    /// Admin controller
     /// </summary>
     public class AdminController : Controller
     {
@@ -24,6 +24,8 @@ namespace Delivery.Web.Controllers
         private readonly IAdminService adminService;
 
         private readonly IInvoicesService invoicesService;
+
+        private readonly IMapper mapper;
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -38,19 +40,23 @@ namespace Delivery.Web.Controllers
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="deliveryMessage">Екзепляр повідолення користувача</param>
-        /// <param name="adminService">Об'єкт сервісу адміністратора</param>
-        /// <param name="invoicesService">Об'єкт сервісу відправлень</param>
-        public AdminController(IDeliveryMessage deliveryMessage, IAdminService adminService,
-            IInvoicesService invoicesService)
+        /// <param name="deliveryMessage">Instance of the users message</param>
+        /// <param name="adminService">Object of the aadmin service</param>
+        /// <param name="invoicesService">Object of the Invoices service</param>
+        /// <param name="mapper">Object  map</param>
+        public AdminController(IDeliveryMessage deliveryMessage, 
+            IAdminService adminService,
+            IInvoicesService invoicesService,
+            IMapper mapper)
         {
             this.deliveryMessage = deliveryMessage;
             this.adminService = adminService;
             this.invoicesService = invoicesService;
+            this.mapper = mapper;
         }
 
         /// <summary>
-        /// Головна сторінка адміністратора
+        /// Main page of Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -70,7 +76,7 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Повертає список усіх створених відправлень усіх користувачів
+        /// Returns list of all shipments for all users
         /// </summary>
         /// <returns>Список усіх відправлень</returns>
         [Authorize(Roles = "Admin")]
@@ -78,17 +84,8 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                var invoicesDtos = invoicesService.GetAll();
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.PostOperatorName + Environment.NewLine +
-                              dto.Sender + Environment.NewLine +
-                              dto.SenderAddress + Environment.NewLine +
-                              dto.Recipient + Environment.NewLine +
-                              dto.RecipientAddress + Environment.NewLine))).CreateMapper();
-                List<InvoiceViewModel> invoicesViewModels = mapper
-                    .Map<List<InvoiceViewModel>>(invoicesDtos);
                 // TODO - код додавання властивостей PostOperatorName, PathToLogoImage або відповідну транзакцію в репо
-                return View(invoicesViewModels);
+                return View(mapper.Map<List<InvoiceViewModel>>(invoicesService.GetAll()));
             }
             catch (Exception ex)
             {
@@ -101,17 +98,14 @@ namespace Delivery.Web.Controllers
         #region ManageUsers
 
         /// <summary>
-        /// Повертає список користувачів, зареєстрованих на Delivery
+        /// Returns the list of registered users
         /// </summary>
-        /// <returns>список користувачів</returns>
+        /// <returns>List of users</returns>
         public ActionResult Users()
         {
             try
             {
-                var appUsersDtos = adminService.GetUsers();
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<AppUserDto, AppUserViewModel>()).CreateMapper();
-                List<AppUserViewModel> appUsersViewModels = mapper.Map<List<AppUserViewModel>>(appUsersDtos);
-                return View(appUsersViewModels);
+                return View(mapper.Map<List<AppUserViewModel>>(adminService.GetUsers()));
             }
             catch (Exception ex)
             {
@@ -122,20 +116,17 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Детальна інформація про користувача
+        /// Users details
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
-        /// <returns>Сторінка інформації про користувача</returns>
+        /// <param name="userId">User Id</param>
+        /// <returns>Page of user info</returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult UserDetails(string userId)
         {
             try
             {
-                var appUserDto = adminService.GetUserById(userId);
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<AppUserDto, AppUserViewModel>()).CreateMapper();
-
-                return View("UserDetails", mapper.Map<AppUserViewModel>(appUserDto));
+                return View("UserDetails", mapper.Map<AppUserViewModel>(adminService.GetUserById(userId)));
             }
             catch (Exception ex)
             {
@@ -146,20 +137,17 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Повертає сторінку для підтвердження видалення користувача
+        /// Returns confirmation for deleting the user
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
-        /// <returns>Сторінка підтвердження видалення користувача</returns>
+        /// <param name="userId">User Id</param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteUser(string userId)
         {
             try
             {
-                var appUserDto = adminService.GetUserById(userId);
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<AppUserDto, AppUserViewModel>()).CreateMapper();
-
-                return View("DeleteUser", mapper.Map<AppUserViewModel>(appUserDto));
+                return View("DeleteUser", mapper.Map<AppUserViewModel>(adminService.GetUserById(userId)));
             }
             catch (Exception ex)
             {
@@ -170,9 +158,9 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Видаляє користувача з БД
+        /// Deleting the user from db
         /// </summary>
-        /// <param name="appUser">ViewModel користувача</param>
+        /// <param name="appUser">View model of the user</param>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -180,7 +168,7 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                invoicesService.RemoveByUser(appUser.Id);// пов'язані записи відправлень користувача
+                invoicesService.RemoveByUser(appUser.Id);
 
                 adminService.RemoveUser(appUser.Id);
 
@@ -199,10 +187,10 @@ namespace Delivery.Web.Controllers
         #region Log in @ Registration
 
         /// <summary>
-        /// Get Повертає сторінку логування
+        /// Returns Login page
         /// </summary>
-        /// <param name="returnUrl">Сторінка з якої користувач звернувся для логування</param>
-        /// <returns>Сторінка логування користувача</returns>
+        /// <param name="returnUrl">The page from which the user applied for logging in</param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -211,7 +199,6 @@ namespace Delivery.Web.Controllers
             {
                 ViewBag.ReturnUrl = returnUrl;
                 return View();
-
             }
             catch (Exception ex)
             {
@@ -222,9 +209,9 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Post Отримує дані зі сторінки логування користувача 
+        /// PGets data from the user's login page
         /// </summary>
-        /// <param name="model">ViewModel логування користувача</param>
+        /// <param name="model">View model of the login</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -262,7 +249,7 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Вихід користувача з облікового запису
+        /// Logout from the system
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -283,9 +270,9 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Повертає сторінку для реєстрації користувача
+        /// Returns the page for user registration
         /// </summary>
-        /// <returns>Сторінка реєстрації користувача</returns>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
@@ -303,10 +290,9 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Post Отримує дані зі сторінки реєстрації користувача, додає роль по замовчуванню, 
-        /// створює налаштування користувача по замовчуванню
+        /// Gets data from the user registration page, adds a default role, creates default user settings
         /// </summary>
-        /// <param name="model">ViewModel реєстрації користувача</param>
+        /// <param name="model">View model of the registration</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

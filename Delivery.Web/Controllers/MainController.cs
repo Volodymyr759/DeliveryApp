@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using Delivery.BLL.DTO;
 using Delivery.BLL.Services;
 using Delivery.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Delivery.Web.Controllers
 {
     /// <summary>
-    /// Головний конроллер, стартова сторінка
+    /// Main controller, start page
     /// </summary>
     public class MainController : Controller
     {
@@ -23,26 +20,32 @@ namespace Delivery.Web.Controllers
 
         private readonly IInvoicesService invoicesService;
 
+        private readonly IMapper mapper;
+
         #endregion
 
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="deliveryMessage">Екзепляр повідолення користувача</param>
-        /// <param name="postOperatorsService">Об'єкт сервісу поштових операторів</param>
-        /// <param name="invoicesService">Об'єкт сервісу відправлень</param>
-        public MainController(IDeliveryMessage deliveryMessage, IPostOperatorService postOperatorsService, IInvoicesService invoicesService)
+        /// <param name="deliveryMessage">Instance of the users message</param>
+        /// <param name="postOperatorsService">Object of the PostOperators service</param>
+        /// <param name="invoicesService">>Object of the Invoices service</param>
+        /// <param name="mapper">Object  map</param>
+        public MainController(IDeliveryMessage deliveryMessage, 
+                              IPostOperatorService postOperatorsService, 
+                              IInvoicesService invoicesService,
+                              IMapper mapper)
         {
             this.deliveryMessage = deliveryMessage;
             this.postOperatorsService = postOperatorsService;
             this.invoicesService = invoicesService;
+            this.mapper = mapper;
         }
 
         /// <summary>
-        /// Повертає головну сторінку з формою пошуку відправлення по номеру 
-        /// і списком поштових операторів, реалізованих в сервісі Delivery
+        /// Returns main page with the form for search posting by the number and the list of post operators 
         /// </summary>
-        /// <returns>Головна сторінка</returns>
+        /// <returns>Main page</returns>
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Index()
@@ -66,11 +69,10 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Шукає відправлення в інформаційних системах поштових операторів по номеру і повертає сторінку  
-        /// з інформацією про відправлення або повідомлення про відсутність результату пошуку
+        /// Searchs posting in accounting systems of post operators
         /// </summary>
-        /// <param name="model">Модель пошуку поштового відправлення</param>
-        /// <returns>Сторінка з інформацією про відправлення або повідомлення про відсутність даних</returns>
+        /// <param name="model">View model of the posting</param>
+        /// <returns>Page with posting info</returns>
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Index(MainIndexViewModel model)
@@ -80,9 +82,6 @@ namespace Delivery.Web.Controllers
                 if (model.Number.Length < 6 || model.Number.Length > 30) throw new Exception("Введіть номер від 6 до 30 символів.");
                 var invoiceDto = invoicesService.SearchByNumber(model.Number);
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
-                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
 
                 return View("Details", mapper.Map<InvoiceViewModel>(invoiceDto));
             }

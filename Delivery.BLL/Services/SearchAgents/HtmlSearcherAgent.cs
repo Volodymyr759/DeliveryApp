@@ -5,36 +5,36 @@ using Delivery.BLL.DTO;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Html-парсер поштового оператора
+    /// Html-parser of the postal operator
     /// </summary>
     public class HtmlSearcherAgent : ISearchAgent
     {
         private readonly string name = "Укрпошта";
 
         /// <summary>
-        /// Повертає назву пошукового агента, якого реалізовано в системі Delivery
+        /// Returns the name of the search agent implemented in the Delivery system
         /// </summary>
-        /// <returns>Назва пошукового агента</returns>
+        /// <returns>Search agent name</returns>
         public string GetName()
         {
             return name;
         }
 
         /// <summary>
-        /// Шукає поштове відправлення по номеру і повертає актуальний статус з інформаційно системи поштового оператора
+        /// Searches for a postal item by number and returns the current status from the information system of the postal operator
         /// </summary>
-        /// <param name="number">Номер відправлення</param>
-        /// <returns>Актуальний статус відправлення</returns>
+        /// <param name="number">Shipment number</param>
+        /// <returns>Current shipment status</returns>
         public Task<string> GetStatus(string number)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Шукає поштове відправлення по номеру і повертає Dto модель, включаючи назву оператора
+        /// Searches for a postal item by number and returns the Dto model, including the name of the operator
         /// </summary>
-        /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
-        /// <returns>Екземпляр Dto моделі відправлення</returns>
+        /// <param name="number">Shipment number in the information system of the postal operator</param>
+        /// <returns>An instance of the Dto shipment model</returns>
         public Task<InvoiceDto> SearchByNumber(string number)
         {
             throw new NotImplementedException();

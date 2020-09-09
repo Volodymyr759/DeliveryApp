@@ -5,14 +5,12 @@ using Delivery.Web.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Delivery.Web.Controllers
 {
     /// <summary>
-    /// Контроллер відправлень користувача
+    /// Shipment controller
     /// </summary>
     [Authorize]
     public class InvoicesController : Controller
@@ -21,19 +19,23 @@ namespace Delivery.Web.Controllers
 
         private readonly IInvoicesService invoicesService;
 
+        private readonly IMapper mapper;
+
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="deliveryMessage">Екзепляр повідолення користувача</param>
-        /// <param name="invoicesService">Об'єкт сервісу відправлень</param>
-        public InvoicesController(IDeliveryMessage deliveryMessage, IInvoicesService invoicesService)
+        /// <param name="deliveryMessage">Instance of the users message</param>
+        /// <param name="invoicesService">Object of the Invoices service</param>
+        /// <param name="mapper">Object map</param>
+        public InvoicesController(IDeliveryMessage deliveryMessage, IInvoicesService invoicesService, IMapper mapper)
         {
             this.deliveryMessage = deliveryMessage;
             this.invoicesService = invoicesService;
+            this.mapper = mapper;
         }
 
         /// <summary>
-        /// Повертає сторінку зі списком поштових відправлень користувача
+        /// Returns page with list of user's shipments
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -41,12 +43,9 @@ namespace Delivery.Web.Controllers
         {
             try
             {
-                string userId = User.Identity.GetUserId(); //"";// TODO - uncomment after testing process
-                var invoicesDtos = invoicesService.GetInvoicesByUserId(userId);
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
-                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
-                return View(mapper.Map<List<InvoiceViewModel>>(invoicesDtos));
+                string userId = User.Identity.GetUserId();
+
+                return View(mapper.Map<List<InvoiceViewModel>>(invoicesService.GetInvoicesByUserId(userId)));
             }
             catch (Exception ex)
             {
@@ -57,10 +56,10 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Детальна інформація про відправлення
+        /// Shipment details
         /// </summary>
-        /// <param name="id">Ідентифікатор відправлення</param>
-        /// <returns>Сторінка інформації про відправлення</returns>
+        /// <param name="id">Shipment Id</param>
+        /// <returns>Page of the shipment info</returns>
         [HttpGet]
         public ActionResult Details(int id)
         {
@@ -68,10 +67,6 @@ namespace Delivery.Web.Controllers
             {
                 var invoiceDto = invoicesService.GetById(id);
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
-
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
-                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
 
                 return View("Details", mapper.Map<InvoiceViewModel>(invoiceDto));
             }
@@ -84,9 +79,9 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Get Повертає сторінку для створення нового відправлення
+        /// Returns page for create a new shipment
         /// </summary>
-        /// <returns>Сторінка створення відправлення</returns>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Create()
         {
@@ -103,18 +98,16 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Отримує номер зі сторінки створення відправлення, перевіряє в списку існуючих, 
-        /// шукає нові в інформаційних системах поштових операторів і зберігає в БД
+        /// Gets the number from the page of creation of the shipment, checks in the list of existing, searches for new in information systems of postal operators and saves in a DB
         /// </summary>
-        /// <param name="model">Модель пошуку поштового відправлення</param>
-        /// <returns>Перехід до списку відстежуваних відправлень</returns>
+        /// <param name="model">SearchInvoiceViewModel</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(SearchInvoiceViewModel model)
         {
             try
             {
-                //invoicesService.Add("", model.Number);//TODO - uncomment for testing
                 invoicesService.Add(User.Identity.GetUserId(), model.Number);
 
                 return View("Create");
@@ -128,10 +121,10 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Повертає сторінку для підтвердження видалення поштового відправлення
+        /// Returns a page to confirm the deletion of the shipment
         /// </summary>
-        /// <param name="id">Ідентифікатор відправлення</param>
-        /// <returns>Сторінка підтвердження видалення відправлення</returns>
+        /// <param name="id">Shipment Id</param>
+        /// <returns>Page to confirm the deletion of the shipment</returns>
         [HttpGet]
         public ActionResult Delete(int? id)
         {
@@ -140,10 +133,6 @@ namespace Delivery.Web.Controllers
                 if (id == null) throw new Exception("Не обрано відправлення для видалення.");
                 InvoiceDto invoiceDto = invoicesService.GetById((int)id);
                 if (invoiceDto == null) throw new Exception("Відправлення не знайдено.");
-
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<InvoiceDto, InvoiceViewModel>()
-                    .ForMember("Notes", opt => opt.MapFrom(dto => dto.Sender + " " + dto.SenderAddress + " " +
-                              dto.Recipient + " " + dto.RecipientAddress + " " + dto.Notes))).CreateMapper();
 
                 return View(mapper.Map<InvoiceViewModel>(invoiceDto));
             }
@@ -156,10 +145,10 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Видаляє поштове відправлення користувача з БД
+        /// Deletes the shipment from the db
         /// </summary>
-        /// <param name="id">Ідентифікатор відправлення</param>
-        /// <param name="invoice">ViewModel відправлення</param>
+        /// <param name="id">Shipment Id</param>
+        /// <param name="invoice">View model of the shipment</param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult Delete(int id, InvoiceViewModel invoice)
@@ -178,10 +167,10 @@ namespace Delivery.Web.Controllers
         }
 
         /// <summary>
-        /// Оновлює статус відправлення
+        /// Updates shipment status
         /// </summary>
-        /// <param name="id">Ідентифікатор відправлення</param>
-        /// <returns>Перехід на сторінку інформації про відправлення</returns>
+        /// <param name="id">Shipment Id</param>
+        /// <returns>Redirects to page of the shipment info</returns>
         [HttpPost]
         public ActionResult UpdateStatus(int id)
         {

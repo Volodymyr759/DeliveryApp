@@ -5,61 +5,61 @@ using System.Threading.Tasks;
 namespace Delivery.BLL.Services
 {
     /// <summary>
-    /// Сервіс управління посилками/відправленнями
+    /// Shipment Management Service interface
     /// </summary>
     public interface IInvoicesService
     {
 
         /// <summary>
-        /// Створення нового відправлення користувача
+        /// Create a new shipment
         /// </summary>
-        /// <param name="userId">Ідентифікатр користувача</param>
-        /// <param name="number">Номер відправлення</param>
+        /// <param name="userId">User Id</param>
+        /// <param name="number">Shipment number</param>
         Task Add(string userId, string number);
 
         /// <summary>
-        /// Повертає усі створені користувачами відправлення в сервісі Delivery
+        /// Returns all user-generated shipments in the Delivery service
         /// </summary>
-        /// <returns>Список відправлень</returns>
+        /// <returns>List of shipments</returns>
         IEnumerable<InvoiceDto> GetAll();
 
         /// <summary>
-        /// Повертає відправлення по ідентифікатору
+        /// Returns the shipment by Id
         /// </summary>
-        /// <param name="invoiceId">Ідентифікатор відправлення</param>
-        /// <returns>Модель Dto відправлення</returns>
+        /// <param name="invoiceId">Shipment Id</param>
+        /// <returns>Shipment Dto model</returns>
         InvoiceDto GetById(int invoiceId);
 
         /// <summary>
-        /// Повертає список відправлень обраного користувача
+        /// Returns the shipment list of the selected user
         /// </summary>
-        /// <param name="userId">Ідентифікатр користувача</param>
+        /// <param name="userId">User Id</param>
         /// <returns></returns>
         IEnumerable<InvoiceDto> GetInvoicesByUserId(string userId);
 
         /// <summary>
-        /// Видалення відправлення
+        /// Deleting a shipment
         /// </summary>
-        /// <param name="invoiceId">Ідентифікатор відправлення</param>
+        /// <param name="invoiceId">Shipment Id</param>
         void Remove(int invoiceId);
 
         /// <summary>
-        /// Видалення відправлень користувача
+        /// Delete user shipments
         /// </summary>
-        /// <param name="userId">Ідентифікатор користувача</param>
+        /// <param name="userId">User Id</param>
         void RemoveByUser(string userId);
 
         /// <summary>
-        /// Пошук відправлення по номеру
+        /// Search for a shipment by number
         /// </summary>
-        /// <param name="number">Номер відправлення в інформаційній системі поштового оператора</param>
-        /// <returns>Модель Dto відправлення</returns>
+        /// <param name="number">Shipment number in the information system of the postal operator</param>
+        /// <returns>Shipment Dto model</returns>
         Task<InvoiceDto> SearchByNumber(string number);
 
         /// <summary>
-        /// Оновлює статус поштового відправлення
+        /// Updates the status of the shipment
         /// </summary>
-        /// <param name="invoiceId">Ідентифікатор відправлення</param>
+        /// <param name="invoiceId">Shipment Id</param>
         Task UpdateStatusAsync(int invoiceId);
     }
 }

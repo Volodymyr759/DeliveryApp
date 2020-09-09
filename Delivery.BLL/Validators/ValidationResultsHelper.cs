@@ -4,15 +4,15 @@ using System;
 namespace Delivery.BLL.Validators
 {
     /// <summary>
-    /// Допоміжний клас обробки результатів валідації
+    /// Auxiliary class for validation results processing
     /// </summary>
     public class ValidationResultsHelper
     {
         /// <summary>
-        /// Повертає строку з набором помилок валідації
+        /// Returns a line with a set of validation errors
         /// </summary>
-        /// <param name="results">ValidationResult - результат валідації екземпляру сутності</param>
-        /// <returns>Строка,, конкантинуюча список помилок валідації</returns>
+        /// <param name="results">ValidationResult - the result of validation of the entity instance</param>
+        /// <returns>Line with a set of validation errors</returns>
         public static string GetValidationErrors(ValidationResult results)
         {
             string errors = "";
